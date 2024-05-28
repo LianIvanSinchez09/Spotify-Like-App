@@ -17,7 +17,7 @@ function prevImg(){
         increment = imgs.children.length - 1;
         imgs.children[increment].classList.remove("hide");
     }
-    else if(!(increment < 0)){
+    else{
         increment--;
         imgs.children[increment].classList.remove("hide");
         imgs.children[increment+1].classList.add("hide");
@@ -27,10 +27,10 @@ function prevImg(){
 function nextImg(){
     if(increment == imgs.children.length - 1){
         imgs.children[increment].classList.add("hide");
-        increment = 0;
+        increment = 0; //reseteo el incremento para ir a la primer imagen
         imgs.children[0].classList.remove("hide")
     }
-    else if(!(increment > imgs.children.length)){
+    else{
         increment++;
         imgs.children[increment].classList.remove("hide");
         imgs.children[increment-1].classList.add("hide");

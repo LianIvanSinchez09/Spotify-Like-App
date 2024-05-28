@@ -17,22 +17,22 @@
         <label for="search">Buscar Producto</label><br>
         <input type="text" id="data-search">
         <button id="data-button">Buscar</button>
+        <div id="carritoUser">
+
+        </div>
         <div product-data>
 
         </div>
         <template id="productoTemplate">
             <div card-header>
-                <h3 data-title></h3> <!-- nombre -->
-                <p data-price></p>    <!-- precio -->
-                <p data-stock></p>    <!--stock-->
+                <h3 id="tituloProd" data-title></h3> <!-- nombre -->
+                <p id="precioProd" data-price></p>    <!-- precio -->
+                <p id="stockProd" data-stock></p>    <!--stock-->
             </div>    
         </template>
-        <div id="miElemento"></div>
-
-        </div>
     </div>
 
 </body>
-<script type="module" src="../js/users.js"></script>
+<script src="../js/carrito.js"></script>
 <script src="../js/searchBar.js"></script>
 </html>
