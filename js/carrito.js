@@ -1,31 +1,25 @@
-const template = document.getElementById("productoTemplate");
-//muestro a los productos (TODO: clientes por ahora, despues los reemplazo) en el HTML y los pusheo
-//al array de productos 
-let i = 0;
-let productos = []; 
-
-fetch('https://jsonplaceholder.typicode.com/users')
-.then(res => res.json())
-.then(users => {
-  users.map(user => {
-    i++;
-    const clone = template.content.cloneNode(true).children[0]; //clono el template y entramos en el html
-    let userObj = { name: user.name, id: i, email: user.email, element: clone }; 
-    productos.push(userObj);
-    const div = document.createElement("div");
-    div.innerHTML = `
-    <button type="button" onclick="aniadirAlCarrito('${userObj.id}')">Añadir al carrito</button>
-    `
-    userObj.element.querySelector("[data-title]").innerHTML = userObj.name; //cargo el nombre
-    userObj.element.querySelector("[data-stock]").innerHTML = userObj.email; //cargo el stock
-    clone.appendChild(div);
-    document.querySelector("[product-data]").appendChild(clone);
-  })
-})
+class Producto {
+  constructor(title, id, precio, categoria, elementoHTML){
+      this.title = title;
+      this.id = id;
+      this.precio = precio;
+      this.categoria = categoria;
+      this.elementoHTML = elementoHTML
+  }
+}
 
 let carrito = [];
 
+//TODO_ editor para que el user pueda publicar productos
+let productos = [
+  new Producto("Notebook Asus X515EA Core i3 1115G4 8Gb Ssd 256Gb 15.6", null, 5000, "Producto", null),
+  new Producto("Notebook Asus X515EA Core i3 1115G4 8Gb Ssd 256Gb 15.6", null, 5000, "Producto", null),
+]; 
 
+/**
+ * añade un elemento al carrito y lo muestra en el html
+ * @param int id 
+ */
 function aniadirAlCarrito(id){
   let counter = 0;
   let encontrado = false;
@@ -34,17 +28,39 @@ function aniadirAlCarrito(id){
       carrito.push(productos[counter]);
       const card = document.createElement("div");
       card.innerHTML = `
-        <div>
-          ${productos[counter].name}
-        </div>
+      <div>
+      ${productos[counter].title}
+      </div>
       `
       document.getElementById("carritoUser").appendChild(card);
       encontrado = true;
-      console.log(carrito)
+      // console.log(productos[counter].id)
     }
     counter++;
   }
 }
+
+//productData: seccion de productos en el HTML
+//template: plantilla para clonar una tarjeta de productos
+//i: incremento (usado para asignar ids una vez incrementado)
+const productData = document.querySelector("[product-data]")
+const template = document.getElementById("productoTemplate");
+let i = 0;
+
+productos.map(producto => {
+  i++;
+  producto.id = i;
+  const clone = template.content.cloneNode(true).children[0];
+  const div = document.createElement("div");
+  producto.elementoHTML = clone;
+  div.innerHTML = `
+  <button type="button" onclick="aniadirAlCarrito('${producto.id}')">Añadir al carrito</button>
+  `
+  producto.elementoHTML.querySelector("[data-title]").innerHTML = producto.title
+  producto.elementoHTML.querySelector("[data-stock]").innerHTML = producto.precio
+  clone.appendChild(div);
+  productData.appendChild(clone)
+})
 
 
 const btnInput = document.getElementById("data-button");
