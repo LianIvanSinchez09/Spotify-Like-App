@@ -6,7 +6,7 @@
     <title>Ejemplo de ECommerce - Productos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
-<body>
+<body id="modalHide">
     <ul>
         <li><a href="../index.html">Inicio</a></li>
         <li><a href="../pages/productos.html">Productos</a></li>
@@ -30,8 +30,18 @@
                 <p id="stockProd" data-stock></p>    <!--stock-->
             </div>    
         </template>
+        <br>   <!-- BORRAR BR MAS TARDE -->
+        <div>
+            <label for="">Introducir imagen</label><BR></BR>
+            <button type="submit">Subir</button><br><br>
+            <label for="">Nombre del producto</label><BR></BR>
+            <input type="text"><BR></BR>
+            <label for="">Precio</label><BR></BR>
+            <input type="text">
+        <button onclick="oscurecerScreen()" id="changebg"></button>
+        </div>
     </div>
 
 </body>
-<script src="../js/carrito.js"></script>
+<script src="../js/productos.js"></script>
 </html>

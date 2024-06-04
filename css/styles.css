@@ -33,3 +33,18 @@ ul {
   align-items: center;
   flex-direction: column;
 }
+
+.modal{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.modalHide{
+  display: none;
+  background-color: #111;
+}
+.modalShow{
+
+}
