@@ -35,10 +35,7 @@ ul {
 }
 
 .modal{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  display: none;
 }
 
 .modalHide{
@@ -47,4 +44,8 @@ ul {
 }
 .modalShow{
 
+}
+
+.manageVisibility{
+  display: none;
 }

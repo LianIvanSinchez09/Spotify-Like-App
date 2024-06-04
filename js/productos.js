@@ -40,11 +40,6 @@ function aniadirAlCarrito(id){
   }
 }
 
-function oscurecerScreen(){
-    const bodyProductos = document.getElementById("modalHide");
-    bodyProductos.classList.add("modalHide")
-  }
-
 //productData: seccion de productos en el HTML
 //template: plantilla para clonar una tarjeta de productos
 //i: incremento (usado para asignar ids una vez incrementado)
@@ -77,13 +72,12 @@ btnInput.addEventListener("click", () => {
     const match = producto.title.toLowerCase().includes(dataSearch.value.toLowerCase());
     if(!match){
       producto.elementoHTML.classList.add("hide");
-      console.log("success")
     }else{
       producto.elementoHTML.classList.remove("hide");
-      console.log("fail")
     }
   })
 })
+
 inputData.addEventListener("keypress", (e) => {
   if(e.key === "Enter") {
     const dataSearch = document.getElementById("data-search");
@@ -91,16 +85,27 @@ inputData.addEventListener("keypress", (e) => {
       const match = producto.title.toLowerCase().includes(dataSearch.value.toLowerCase());
       if(!match){
         producto.elementoHTML.classList.add("hide");
-        console.log("success")
       }else{
         producto.elementoHTML.classList.remove("hide");
-        console.log("fail")
       }
     })
   }
 });
 
-const buttonBackground = document.getElementById("changebg");
+const openModal = document.getElementById("modalbtn-open");
+const closeModal = document.getElementById("modalbtn-close");
+const visibilityManager = document.getElementById("manageVisibility");
 
-buttonBackground.addEventListener("click", () => {
+openModal.addEventListener("click", () => {
+  visibilityManager.classList.add("hide")
+  openModal.classList.add("hide")
+  const modal = document.getElementById("modal");
+  modal.classList.remove("modalHide")
+})
+
+closeModal.addEventListener("click", () => {
+  openModal.classList.remove("hide")
+  visibilityManager.classList.remove("hide")
+  const modal = document.getElementById("modal");
+  modal.classList.add("modalHide")
 })

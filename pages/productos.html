@@ -6,14 +6,14 @@
     <title>Ejemplo de ECommerce - Productos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
-<body id="modalHide">
+<body>
     <ul>
         <li><a href="../index.html">Inicio</a></li>
         <li><a href="../pages/productos.html">Productos</a></li>
         <li><a href="../pages/sponsors.html">Sponsors</a></li>
         <li><a href="../pages/publicarProd.html">Publicar un Producto</a></li>
       </ul>
-    <div>
+    <div id="manageVisibility">
         <label for="search">Buscar Producto</label><br>
         <input type="text" id="data-search">
         <button id="data-button">Buscar</button>
@@ -31,16 +31,17 @@
             </div>    
         </template>
         <br>   <!-- BORRAR BR MAS TARDE -->
-        <div>
-            <label for="">Introducir imagen</label><BR></BR>
-            <button type="submit">Subir</button><br><br>
-            <label for="">Nombre del producto</label><BR></BR>
-            <input type="text"><BR></BR>
-            <label for="">Precio</label><BR></BR>
-            <input type="text">
-        <button onclick="oscurecerScreen()" id="changebg"></button>
-        </div>
     </div>
+    <div id="modal" class="modalHide">
+        <label for="">Introducir imagen</label><BR></BR>
+        <button type="submit">Subir</button><br><br>
+        <label for="">Nombre del producto</label><BR></BR>
+        <input type="text"><BR></BR>
+        <label for="">Precio</label><BR></BR>
+        <input type="text"><BR></BR>
+        <button id="modalbtn-close">Cerrar</button>
+    </div>
+    <button id="modalbtn-open">Subir Producto</button>
 
 </body>
 <script src="../js/productos.js"></script>
