@@ -32,16 +32,19 @@
         </template>
         <br>   <!-- BORRAR BR MAS TARDE -->
     </div>
-    <div id="modal" class="modalHide">
+    <div id="modal" class="modalHide modal">
         <label for="">Introducir imagen</label><BR></BR>
-        <button type="submit">Subir</button><br><br>
+        <input id="img-product" type="file"></input><br><br>
         <label for="">Nombre del producto</label><BR></BR>
-        <input type="text"><BR></BR>
+        <input id="nombre-product" type="text"><BR></BR>
         <label for="">Precio</label><BR></BR>
-        <input type="text"><BR></BR>
-        <button id="modalbtn-close">Cerrar</button>
+        <input id="precio-product" type="text"><BR></BR>
+        <label for="">Categoría</label><BR></BR>
+        <input id="categoria-product" type="text"><BR></BR>
+        <button onclick="modalBtnUpload()" id="modalbtn-upload">Subir</button><BR></BR>
+        <button onclick="closeModal()" id="modalbtn-close">Cerrar</button>
     </div>
-    <button id="modalbtn-open">Subir Producto</button>
+    <button onclick="openModal()" id="modalbtn-open">Subir Producto</button>
 
 </body>
 <script src="../js/productos.js"></script>

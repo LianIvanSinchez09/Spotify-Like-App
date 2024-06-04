@@ -1,6 +1,7 @@
 class Producto {
-  constructor(title, id, precio, categoria, elementoHTML){
+  constructor(title, id, precio, categoria, elementoHTML, img){
       this.title = title;
+      this.img = img;
       this.id = id;
       this.precio = precio;
       this.categoria = categoria;
@@ -32,13 +33,27 @@ function aniadirAlCarrito(id){
       ${productos[counter].title}
       </div>
       `
-      document.getElementById("carritoproducto").appendChild(card);
+      document.getElementById("carritoUser").appendChild(card);
       encontrado = true;
-      // console.log(productos[counter].id)
     }
     counter++;
   }
 }
+
+function subirProducto(producto){
+  productos.push(producto);
+  showProducts()
+}
+
+function modalBtnUpload(){
+  let nombre = document.getElementById("nombre-product").value;
+  let precio = document.getElementById("precio-product").value;
+  let img = document.getElementById("img-product").value;
+  let categoria = document.getElementById("categoria-product").value;
+  let productoNuevo = new Producto(nombre, null, precio, categoria, null, img);
+  subirProducto(productoNuevo);
+}
+
 
 //productData: seccion de productos en el HTML
 //template: plantilla para clonar una tarjeta de productos
@@ -48,20 +63,22 @@ const productData = document.querySelector("[product-data]")
 const template = document.getElementById("productoTemplate");
 let i = 0;
 
-productos.map(producto => {
-  i++;
-  producto.id = i;
-  const clone = template.content.cloneNode(true).children[0];
-  const div = document.createElement("div");
-  producto.elementoHTML = clone;
-  div.innerHTML = `
-  <button type="button" onclick="aniadirAlCarrito('${producto.id}')">Añadir al carrito</button>
-  `
-  producto.elementoHTML.querySelector("[data-title]").innerHTML = producto.title
-  producto.elementoHTML.querySelector("[data-stock]").innerHTML = producto.precio
-  clone.appendChild(div);
-  productData.appendChild(clone)
-})
+function showProducts(){
+  productos.map(producto => {
+    i++;
+    producto.id = i;
+    const clone = template.content.cloneNode(true).children[0];
+    const div = document.createElement("div");
+    producto.elementoHTML = clone;
+    div.innerHTML = `
+    <button type="button" onclick="aniadirAlCarrito('${producto.id}')">Añadir al carrito</button>
+    `
+    producto.elementoHTML.querySelector("[data-title]").innerHTML = producto.title
+    producto.elementoHTML.querySelector("[data-stock]").innerHTML = producto.precio
+    clone.appendChild(div);
+    productData.appendChild(clone)
+  })
+}
 
 const btnInput = document.getElementById("data-button");
 const inputData = document.getElementById("data-search");
@@ -92,20 +109,22 @@ inputData.addEventListener("keypress", (e) => {
   }
 });
 
-const openModal = document.getElementById("modalbtn-open");
-const closeModal = document.getElementById("modalbtn-close");
+const openModalEvent = document.getElementById("modalbtn-open");
+const closeModalEvent = document.getElementById("modalbtn-close");
 const visibilityManager = document.getElementById("manageVisibility");
 
-openModal.addEventListener("click", () => {
-  visibilityManager.classList.add("hide")
-  openModal.classList.add("hide")
-  const modal = document.getElementById("modal");
-  modal.classList.remove("modalHide")
-})
+function openModal(){
+    visibilityManager.classList.add("hide")
+    openModalEvent.classList.add("hide")
+    const modal = document.getElementById("modal");
+    modal.classList.remove("modalHide")
+}
 
-closeModal.addEventListener("click", () => {
-  openModal.classList.remove("hide")
-  visibilityManager.classList.remove("hide")
-  const modal = document.getElementById("modal");
-  modal.classList.add("modalHide")
-})
+function closeModal(){
+    openModalEvent.classList.remove("hide")
+    visibilityManager.classList.remove("hide")
+    const modal = document.getElementById("modal");
+    modal.classList.add("modalHide")
+}
+
+showProducts()
