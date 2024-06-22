@@ -97,30 +97,17 @@ let albums = [
 
     new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
         new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
+        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Game Soundtrack"),
 
     new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
         new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
+        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Game Soundtrack"),
 
     new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
         new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
         new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
             
 ]
-
-function search() {
-    let dataSearch = document.getElementById("data-search");
-    albums.forEach(album => {
-        const match = album.title.toLowerCase().includes(dataSearch.value.toLowerCase());
-        if(!match){
-            album.elementoHTML.classList.add("hide");
-        }else{
-            album.elementoHTML.classList.remove("hide");
-        }
-    })
-}
-
 
 
 function showAlbum() {
@@ -134,8 +121,8 @@ function showAlbum() {
         <h3>${albums[index].getTitle}</h3>
         <p>${albums[index].getAuthor}</p>
         <p>${albums[index].getCategoria}</p>
+        <button onclick="addAlbum(${index})">Añadir a biblioteca</button>
           `;
-          console.log(albums[index].getCategoria);
         lugarDeAlbumes.appendChild(albumSpace);
         let modal = document.getElementById("myModal");
         let span = document.getElementsByClassName("close")[0];
@@ -179,6 +166,42 @@ function showModal(index) {
     modalContent.appendChild(songSection);
 }
 
+function addAlbum(index) {
+    let biblioteca = document.getElementById("biblioteca");
+    let bibliotecaEspacio = document.createElement("a");
+    bibliotecaEspacio.id = `albumBiblioteca${index}`
+    bibliotecaEspacio.innerHTML = `
+        <h3>${albums[index].getTitle}</h3>
+        <p>${albums[index].getAuthor}</p>
+        <p>${albums[index].getCategoria}</p>
+    `;
+    biblioteca.appendChild(bibliotecaEspacio);
+    let modal = document.getElementById("myModal");
+    let span = document.getElementsByClassName("close")[0];
+    let btn = document.getElementById(`albumBiblioteca${index}`);
+      // Cuando se hace clic en el botón, abre el modal
+      btn.onclick = function() {
+          showModal(index);
+          modal.style.display = "block";
+      }
+  
+      // Cuando se hace clic en <span> (x), cierra el modal
+      span.onclick = function() {
+          modal.style.display = "none";
+      }
+  
+      // Cuando se hace clic en cualquier parte fuera del modal, cierra el modal
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+}
 
+
+function cleanLibrary(){
+    let biblioteca = document.getElementById("biblioteca");
+    biblioteca.innerHTML = "";
+}
 
 showAlbum();
