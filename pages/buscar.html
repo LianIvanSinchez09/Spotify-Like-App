@@ -7,45 +7,24 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <ul>
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="../pages/productos.html">Productos</a></li>
-        <li><a href="../pages/sponsors.html">Sponsors</a></li>
-        <li><a href="../pages/publicarProd.html">Publicar un Producto</a></li>
-      </ul>
-    <div id="manageVisibility">
-        <label for="search">Buscar Producto</label><br>
-        <input type="text" id="data-search">
-        <button id="data-button">Buscar</button>
-        <div id="carritoUser">
+    <header>
+        <ul id="navbar">
+            <li><a href="../index.html">Inicio</a></li>
+            <li><a href="../pages/buscar.html">Buscar</a></li>
+            <li><a href="../pages/categoria.html">Explorar por categoria</a></li>
+            <li><a href="../pages/biblioteca.html">Tu biblioteca</a></li>
+            <li><a href="../pages/perfil.html">Tu perfil</a></li>
+            <a onclick="cleanLibrary()">Limpiar biblioteca</a>
+            <div id="biblioteca"></div>
+        </ul>
+    </header>
+    <section class="input-buscar">
+        <input id="buscador" type="text">
+        <button id="data-button" type="submit">Buscar</button>
+        <ul id="content">
 
-        </div>
-        <div product-data>
-
-        </div>
-        <template id="productoTemplate">
-            <div card-header>
-                <h3 id="tituloProd" data-title></h3> <!-- nombre -->
-                <p id="precioProd" data-price></p>    <!-- precio -->
-                <p id="stockProd" data-stock></p>    <!--stock-->
-            </div>    
-        </template>
-        <br>   <!-- BORRAR BR MAS TARDE -->
-    </div>
-    <div id="modal" class="modalHide modal">
-        <label for="">Introducir imagen</label><BR></BR>
-        <input id="img-product" type="file"></input><br><br>
-        <label for="">Nombre del producto</label><BR></BR>
-        <input id="nombre-product" type="text"><BR></BR>
-        <label for="">Precio</label><BR></BR>
-        <input id="precio-product" type="text"><BR></BR>
-        <label for="">Categoría</label><BR></BR>
-        <input id="categoria-product" type="text"><BR></BR>
-        <button onclick="modalBtnUpload()" id="modalbtn-upload">Subir</button><BR></BR>
-        <button onclick="closeModal()" id="modalbtn-close">Cerrar</button>
-    </div>
-    <button onclick="openModal()" id="modalbtn-open">Subir Producto</button>
-
+        </ul>
+    </section>
 </body>
-<script src="../js/productos.js"></script>
+<script src="../js/buscar.js"></script>
 </html>

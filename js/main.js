@@ -115,35 +115,32 @@ function showAlbum() {
         let albumSpace = document.createElement("div");
         albumSpace.id = `album${index}`
         albumSpace.innerHTML = `
-        <button id="button${index}" onclick="showModal(${index})" type="button">
+        <a id="button${index}" onclick="showModal(${index})">
             <img src="${albums[index].getImg}" alt="Album Cover">
-        </button>
-        <h3>${albums[index].getTitle}</h3>
-        <p>${albums[index].getAuthor}</p>
-        <p>${albums[index].getCategoria}</p>
-        <button onclick="addAlbum(${index})">Añadir a biblioteca</button>
+            <h3>${albums[index].getTitle}</h3>
+            <p>${albums[index].getAuthor}</p>
+            <p>${albums[index].getCategoria}</p>
+        </a>
+            <button onclick="addAlbum(${index})">Añadir a biblioteca</button>
           `;
         lugarDeAlbumes.appendChild(albumSpace);
         let modal = document.getElementById("myModal");
         let span = document.getElementsByClassName("close")[0];
         let btn = document.getElementById("button"+index);
-          // Cuando se hace clic en el botón, abre el modal
-          btn.onclick = function() {
-              showModal(index);
-              modal.style.display = "block";
-          }
-      
-          // Cuando se hace clic en <span> (x), cierra el modal
-          span.onclick = function() {
-              modal.style.display = "none";
-          }
-      
-          // Cuando se hace clic en cualquier parte fuera del modal, cierra el modal
-          window.onclick = function(event) {
-              if (event.target == modal) {
-                  modal.style.display = "none";
-              }
-          }
+        btn.onclick = function() {
+            showModal(index);
+            modal.style.display = "block";
+        }
+    
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+    
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     }
 }
 
@@ -179,23 +176,20 @@ function addAlbum(index) {
     let modal = document.getElementById("myModal");
     let span = document.getElementsByClassName("close")[0];
     let btn = document.getElementById(`albumBiblioteca${index}`);
-      // Cuando se hace clic en el botón, abre el modal
-      btn.onclick = function() {
-          showModal(index);
-          modal.style.display = "block";
-      }
-  
-      // Cuando se hace clic en <span> (x), cierra el modal
-      span.onclick = function() {
-          modal.style.display = "none";
-      }
-  
-      // Cuando se hace clic en cualquier parte fuera del modal, cierra el modal
-      window.onclick = function(event) {
-          if (event.target == modal) {
-              modal.style.display = "none";
-          }
-      }
+    btn.onclick = function() {
+        showModal(index);
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 }
 
 
