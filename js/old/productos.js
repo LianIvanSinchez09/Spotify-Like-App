@@ -11,7 +11,6 @@ class Producto {
 
 let carrito = [];
 
-//TODO_ editor para que el producto pueda publicar productos
 let productos = [
   new Producto("Notebook Asus X515EA Core i3 1115G4 8Gb Ssd 256Gb 15.6", null, 5000, "Producto", null),
   new Producto("Notebook Asus X515EA Core i3 1115G4 8Gb Ssd 256Gb 15.6", null, 5000, "Producto", null),
@@ -29,9 +28,9 @@ function aniadirAlCarrito(id){
       carrito.push(productos[counter]);
       const card = document.createElement("div");
       card.innerHTML = `
-      <div>
-      ${productos[counter].title}
-      </div>
+        <div>
+        ${productos[counter].title}
+        </div>
       `
       document.getElementById("carritoUser").appendChild(card);
       encontrado = true;
