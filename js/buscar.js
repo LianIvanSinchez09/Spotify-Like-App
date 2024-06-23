@@ -195,5 +195,61 @@ btnInput.addEventListener("click", () => {
     });
 });
 
+function showModal(index) {
+    let modalContent = document.getElementById("modal-content");
+    let album = albums[index];
+    let songSection = document.createElement("div");
+    for (let i = 0; i < albums[index].getSongs.length; i++) {
+        songSection.innerHTML += `
+        <h3>${albums[index].getSongs[i].getTitle}</h3>
+        <audio controls>
+            <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
+        </audio>
+    ` 
+    }
+    modalContent.innerHTML = `
+        <h3>${album.getTitle}</h3>
+        <p>${album.getAuthor}</p>
+    `
+    modalContent.appendChild(songSection);
+}
 
-  
+
+
+function getLocalStorage(){
+    let biblioteca = document.getElementById("biblioteca");
+    let savedAlbumsHtml = localStorage.getItem('biblioteca');
+    if(savedAlbumsHtml){
+        biblioteca.innerHTML = savedAlbumsHtml;
+        console.log(biblioteca.childNodes);
+        for (let index = 0; index < biblioteca.childNodes.length; index++) {
+            let btn = document.getElementById(`albumBiblioteca${index}`);
+            console.log(btn);
+            let modal = document.getElementById("myModal");
+            let span = document.getElementsByClassName("close")[0];
+            btn.onclick = function() {
+                showModal(index);
+                modal.style.display = "block";
+            }
+        
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+        
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+    }
+    console.log(savedAlbumsHtml);
+}
+
+
+function cleanLibrary(){
+    localStorage.removeItem("biblioteca")
+    biblioteca.innerHTML = "";
+}
+
+document.addEventListener("DOMContentLoaded", getLocalStorage);
