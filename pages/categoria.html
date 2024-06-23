@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de ECommerce</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header>
+        <ul id="navbar">
+            <li><a href="../index.html">Inicio</a></li>
+            <li><a href="../pages/buscar.html">Buscar</a></li>
+            <li><a href="../pages/categoria.html">Explorar por categoria</a></li>
+            <li><a href="../pages/biblioteca.html">Tu biblioteca</a></li>
+            <li><a href="../pages/perfil.html">Tu perfil</a></li>
+            <a onclick="cleanLibrary()">Limpiar biblioteca</a>
+            <div id="biblioteca"></div>
+        </ul>
+    </header>
+
+    <div id="category-main">
+
+    </div>
+
+    <div id="myModal" class="modal">
+        <div id="modal-content" class="modal-content">
+            <span class="close">&times;</span>
+        </div>
+    </div>
+
+    <script src="../js/categoria.js"></script>
+</body>
+</html>

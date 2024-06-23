@@ -109,7 +109,6 @@ let albums = [
             
 ]
 
-
 function showAlbum() {
     for (let index = 0; index < albums.length; index++) {
         let albumSpace = document.createElement("div");
@@ -230,13 +229,19 @@ function getLocalStorage(){
     }
     console.log(savedAlbumsHtml);
 }
+document.addEventListener("DOMContentLoaded", getLocalStorage);
 
 function cleanLibrary(){
     localStorage.removeItem("biblioteca")
     biblioteca.innerHTML = "";
 }
 
+function loadStylesLS(){
+    let style = localStorage.getItem("style");
+    document.body.style.background = style
+}
+
+loadStylesLS()
+
 showAlbum();
 
-
-document.addEventListener("DOMContentLoaded", getLocalStorage);

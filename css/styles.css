@@ -107,6 +107,8 @@ flex-direction: column;
 
 }
 
+
+
 .modalHide{
 display: none;
 background-color: #111;
@@ -117,6 +119,15 @@ display: none;
 }
 
 #main-content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+#category-main{
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
   margin-left: 200px;
   padding: 1px 16px;
   height: 1000px;

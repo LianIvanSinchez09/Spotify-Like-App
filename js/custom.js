@@ -87,7 +87,6 @@ class Album {
     }
 }
 
-
 let albums = [
     new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
@@ -105,95 +104,39 @@ let albums = [
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
     new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
 
+
+            
 ]
 
-function showModal(index) {
-    let modalContent = document.getElementById("modal-content");
-    let album = albums[index];
-    let songSection = document.createElement("div");
-    for (let i = 0; i < albums[index].getSongs.length; i++) {
-        songSection.innerHTML += `
-        <h3>${albums[index].getSongs[i].getTitle}</h3>
-        <audio controls>
-            <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
-        </audio>
-    ` 
-    }
-    modalContent.innerHTML = `
-        <h3>${album.getTitle}</h3>
-        <p>${album.getAuthor}</p>
-    `
-    modalContent.appendChild(songSection);
-}
+let albumsString = JSON.stringify(albums)
 
-function addAlbum(index) {
-    let biblioteca = document.getElementById("biblioteca");
-    let bibliotecaEspacio = document.createElement("a");
-    bibliotecaEspacio.id = `albumBiblioteca${index}`
-    bibliotecaEspacio.innerHTML = `
-        <h3>${albums[index].getTitle}</h3>
-        <p>${albums[index].getAuthor}</p>
-        <p>${albums[index].getCategoria}</p>
-    `;
-    biblioteca.appendChild(bibliotecaEspacio);
-    let modal = document.getElementById("myModal");
-    let span = document.getElementsByClassName("close")[0];
-    let btn = document.getElementById(`albumBiblioteca${index}`);
-    btn.onclick = function() {
-        showModal(index);
-        modal.style.display = "block";
-    }
 
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
 
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
+
+
+function check() {
+    let optionDarkLight = document.querySelector('input[name="theme"]:checked')
+    loadStylesLS()
+    document.getElementById(localStorage.getItem("style")).checked = true;
+    // console.log(document.getElementById(localStorage.getItem("style")));
+    // document.getElementById(localStorage.getItem("style")).checked = true;
+    switch (optionDarkLight.value) {
+        case 'light':
+            document.getElementById("white").checked = true;
+            localStorage.setItem("style", "white");
+            loadStylesLS()
+            console.log(2);
+            break;
+        case 'dark':
+            document.getElementById("gray").checked = true;
+            localStorage.setItem("style", "gray");
+            loadStylesLS()
+            console.log(2);
+            break;
+        default:
+            break;
     }
 }
-
-const btnInput = document.getElementById("data-button");
-const songContainer = document.getElementById("content");
-let counter = 0;
-
-albums.forEach(album => {
-    album.getSongs.forEach(element => {
-        let songSpace = document.createElement("li");
-        songSpace.id = `songSpace${counter}`;
-        songSpace.innerHTML = `
-            <img src="${album.getImg}" alt="Album Cover">
-            <h3>${element.getTitle}</h3>
-            <button>Añadir a biblioteca</button>
-          `;;
-        songContainer.appendChild(songSpace);
-        counter++;
-    });
-});
-
-btnInput.addEventListener("click", () => {
-    const inputData = document.getElementById("buscador").value.toLowerCase();
-    let counter2 = 0;
-
-    albums.forEach(album => {
-        album.getSongs.forEach(song => {
-            const songIDHTML = document.getElementById(`songSpace${counter2}`);
-            const match = song.getTitle.toLowerCase().includes(inputData);
-            if (inputData) {
-                if (!match) {
-                    songIDHTML.classList.add("hide");
-                } else {
-                    songIDHTML.classList.remove("hide");
-                }
-            } else {
-                songIDHTML.classList.remove("hide");
-            }
-            counter2++;
-        });
-    });
-});
 
 function showModal(index) {
     let modalContent = document.getElementById("modal-content");
@@ -213,8 +156,6 @@ function showModal(index) {
     `
     modalContent.appendChild(songSection);
 }
-
-
 
 function getLocalStorage(){
     let biblioteca = document.getElementById("biblioteca");
@@ -243,20 +184,20 @@ function getLocalStorage(){
             }
         }
     }
-    console.log(savedAlbumsHtml);
 }
-
+document.addEventListener("DOMContentLoaded", getLocalStorage);
 
 function cleanLibrary(){
     localStorage.removeItem("biblioteca")
     biblioteca.innerHTML = "";
 }
 
+
 function loadStylesLS(){
     let style = localStorage.getItem("style");
     document.body.style.background = style
 }
 
-loadStylesLS()
 
-document.addEventListener("DOMContentLoaded", getLocalStorage);
+// document.addEventListener("DOMContentLoaded", loadStylesLS)
+document.addEventListener("DOMContentLoaded", check)
