@@ -163,6 +163,8 @@ function showModal(index) {
     modalContent.appendChild(songSection);
 }
 
+let localStorageLib = [];
+
 function addAlbum(index) {
     let biblioteca = document.getElementById("biblioteca");
     let bibliotecaEspacio = document.createElement("a");
@@ -173,6 +175,8 @@ function addAlbum(index) {
         <p>${albums[index].getCategoria}</p>
     `;
     biblioteca.appendChild(bibliotecaEspacio);
+    let albumsHtml = biblioteca.innerHTML;
+    localStorage.setItem('biblioteca', albumsHtml);
     let modal = document.getElementById("myModal");
     let span = document.getElementsByClassName("close")[0];
     let btn = document.getElementById(`albumBiblioteca${index}`);
@@ -192,6 +196,37 @@ function addAlbum(index) {
     }
 }
 
+function getLocalStorage(){
+    let biblioteca = document.getElementById("biblioteca");
+    let savedAlbumsHtml = localStorage.getItem('biblioteca');
+    if(savedAlbumsHtml){
+        biblioteca.innerHTML = savedAlbumsHtml;
+        console.log(biblioteca.childNodes);
+        for (let index = 0; index < biblioteca.childNodes.length; index++) {
+            let btn = document.getElementById(`albumBiblioteca${index}`);
+            let modal = document.getElementById("myModal");
+            let span = document.getElementsByClassName("close")[0];
+            btn.onclick = function() {
+                showModal(index);
+                modal.style.display = "block";
+            }
+        
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+        
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+    }
+    console.log(savedAlbumsHtml);
+}
+
+
+let counterLS = 0;
 
 function cleanLibrary(){
     let biblioteca = document.getElementById("biblioteca");
@@ -199,3 +234,6 @@ function cleanLibrary(){
 }
 
 showAlbum();
+
+
+document.addEventListener("DOMContentLoaded", getLocalStorage);

@@ -107,6 +107,53 @@ let albums = [
             
 ]
 
+function showModal(index) {
+    let modalContent = document.getElementById("modal-content");
+    let album = albums[index];
+    let songSection = document.createElement("div");
+    for (let i = 0; i < albums[index].getSongs.length; i++) {
+        songSection.innerHTML += `
+        <h3>${albums[index].getSongs[i].getTitle}</h3>
+        <audio controls>
+            <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
+        </audio>
+    ` 
+    }
+    modalContent.innerHTML = `
+        <h3>${album.getTitle}</h3>
+        <p>${album.getAuthor}</p>
+    `
+    modalContent.appendChild(songSection);
+}
+
+function addAlbum(index) {
+    let biblioteca = document.getElementById("biblioteca");
+    let bibliotecaEspacio = document.createElement("a");
+    bibliotecaEspacio.id = `albumBiblioteca${index}`
+    bibliotecaEspacio.innerHTML = `
+        <h3>${albums[index].getTitle}</h3>
+        <p>${albums[index].getAuthor}</p>
+        <p>${albums[index].getCategoria}</p>
+    `;
+    biblioteca.appendChild(bibliotecaEspacio);
+    let modal = document.getElementById("myModal");
+    let span = document.getElementsByClassName("close")[0];
+    let btn = document.getElementById(`albumBiblioteca${index}`);
+    btn.onclick = function() {
+        showModal(index);
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
 
 const btnInput = document.getElementById("data-button");
 const songContainer = document.getElementById("content");
