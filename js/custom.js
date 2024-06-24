@@ -108,34 +108,34 @@ let albums = [
             
 ]
 
-let albumsString = JSON.stringify(albums)
-
-
-
-
-
 function check() {
     let optionDarkLight = document.querySelector('input[name="theme"]:checked')
     loadStylesLS()
     document.getElementById(localStorage.getItem("style")).checked = true;
-    // console.log(document.getElementById(localStorage.getItem("style")));
-    // document.getElementById(localStorage.getItem("style")).checked = true;
     switch (optionDarkLight.value) {
         case 'light':
             document.getElementById("white").checked = true;
             localStorage.setItem("style", "white");
             loadStylesLS()
-            console.log(2);
             break;
         case 'dark':
             document.getElementById("gray").checked = true;
             localStorage.setItem("style", "gray");
             loadStylesLS()
-            console.log(2);
             break;
         default:
             break;
     }
+
+}
+
+let userLikes = document.getElementById("user-likes");
+
+function saveLikes(albumOrSong){
+    let likes = [];
+    likes.push(albumOrSong);
+    localStorage.setItem("user_likes", JSON.stringify(albumOrSong));
+    console.log(localStorage.getItem("user_likes"));
 }
 
 function showModal(index) {
@@ -148,6 +148,7 @@ function showModal(index) {
         <audio controls>
             <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
         </audio>
+        <button onclick="saveLikes(${albums[index].getSongs[i].getSong})">Añadir a la lista</button>
     ` 
     }
     modalContent.innerHTML = `
@@ -197,6 +198,8 @@ function loadStylesLS(){
     let style = localStorage.getItem("style");
     document.body.style.background = style
 }
+
+
 
 
 // document.addEventListener("DOMContentLoaded", loadStylesLS)

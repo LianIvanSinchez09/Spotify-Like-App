@@ -90,6 +90,8 @@ class Album {
 let lugarDeAlbumes = document.getElementById("albumes-populares");
 
 
+
+
 let albums = [
     new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
@@ -108,6 +110,18 @@ let albums = [
         new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
             
 ]
+
+// let userLikes = document.getElementById("user-likes");
+let arrayLikes = [];
+
+function saveLikes(albumIndex, songIndex) {
+    let album = albums[albumIndex];
+    let song = album.getSongs[songIndex];
+    arrayLikes.push(song)
+    console.log(arrayLikes);
+    localStorage.setItem("likes", JSON.stringify(arrayLikes))
+    // console.log(`Added ${song.getTitle} from ${album.getTitle} to the list`);
+}
 
 function showAlbum() {
     for (let index = 0; index < albums.length; index++) {
@@ -153,6 +167,7 @@ function showModal(index) {
         <audio controls>
             <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
         </audio>
+        <button onclick="saveLikes(${index}, ${i})">Añadir a la lista</button>
     ` 
     }
     modalContent.innerHTML = `

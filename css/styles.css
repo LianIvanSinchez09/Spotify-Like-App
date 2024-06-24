@@ -60,12 +60,29 @@ a{
   cursor: pointer;
 }
 
+.flex-category{
+  background-color: white;
+  border-radius: 5%;
+  padding: 15px;
+  -webkit-border-radius: 5%;
+  -moz-border-radius: 5%;
+  -ms-border-radius: 5%;
+  -o-border-radius: 5%;
+}
 
 
 #albumes-populares{
   margin-top: 30px;
   display: flex;
   gap: 120px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+#user-likes {
+  display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
@@ -107,8 +124,6 @@ flex-direction: column;
 
 }
 
-
-
 .modalHide{
 display: none;
 background-color: #111;
@@ -130,7 +145,6 @@ display: none;
   flex-wrap: wrap;
   margin-left: 200px;
   padding: 1px 16px;
-  height: 1000px;
 }
 
 .input-buscar {

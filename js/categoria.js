@@ -99,12 +99,23 @@ let albums = [
         new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Soundtrack"),
 
         new Album([new Song(new Audio("../songs/dryhands.mp3"), "A lo pibe rafagazo", "C418", "../imgs/dryhands.jpg"), 
+        new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
+        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Cumbia"),
+
+        new Album([new Song(new Audio("../songs/dryhands.mp3"), "A lo pibe rafagazo", "C418", "../imgs/dryhands.jpg"), 
             new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-            new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Cumbia"),
+            new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "RnB"),
+
+            
+    
 ]
 
 let categorias = [];
 
+function loadStylesLS(){
+    let style = localStorage.getItem("style");
+    document.body.style.background = style
+}
 
 function eliminarRepetidos(array) {
     let newArray = [];
@@ -135,28 +146,19 @@ function createCategory(){
     let categoryMainChild = mainContentContainer.childNodes
 
     for (let index = 0; index < categoryMainChild.length; index++) {
-        console.log(categoryMainChild[index].childNodes[0]);        
-    }
-
-
-    console.log(categoryMainChild);
-
-    for (let index = 0; index < categoryMainChild.length; index++) {
         if(categoryMainChild[index].tagName === "DIV"){
             albums.forEach(album => {
                 if(categoryMainChild[index].childNodes[0].tagName === "H3"){
                     if(categoryMainChild[index].childNodes[0].innerHTML == album.getCategoria){
                         album.getSongs.forEach(song => {
-                                console.log(song.getSong.src);
-                                let title = document.createElement("div")
-                                console.log(song.getSong.src);
-                                title.innerHTML = `
+                                let card = document.createElement("div")
+                                card.innerHTML = `
                                     <h4>${song.getTitle}</h4>
                                     <audio controls>
                                         <source src="${song.getSong.src}">
                                     </audio>
                                 `
-                                categoryMainChild[index].appendChild(title)
+                                categoryMainChild[index].appendChild(card)
                             });
                     }
     
@@ -167,6 +169,7 @@ function createCategory(){
 }
 
 createCategory()
+loadStylesLS()
 
 let arrayChecked = eliminarRepetidos(categorias)
 
