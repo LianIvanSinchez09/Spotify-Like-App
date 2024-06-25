@@ -105,22 +105,36 @@ let albums = [
         new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
         new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Game Soundtrack"),
 
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "El papu", "C418", "../imgs/dryhands.jpg"), 
         new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
         new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
             
 ]
 
-// let userLikes = document.getElementById("user-likes");
-let arrayLikes = [];
 
-function saveLikes(albumIndex, songIndex) {
-    let album = albums[albumIndex];
-    let song = album.getSongs[songIndex];
-    arrayLikes.push(song)
-    console.log(arrayLikes);
-    localStorage.setItem("likes", JSON.stringify(arrayLikes))
-    // console.log(`Added ${song.getTitle} from ${album.getTitle} to the list`);
+/** guarda una cancion likeada por el usuario
+ * @param url
+ * @param title
+ * @param author
+ * @param img
+ * @returns void
+*/
+function saveLikes(url, title, author, img) {
+    let arrayLikes = JSON.parse(localStorage.getItem("likes")) || [];
+    let likedObjSong = { url, title, author, img };
+    let c = 0;
+    let encontrado = false;
+    while(c < arrayLikes.length && !encontrado){
+        if(arrayLikes[c].title == likedObjSong.title){
+            encontrado = true;
+            console.log("true");
+        }
+        c++;
+    }
+    if(!encontrado){
+        arrayLikes.push(likedObjSong);
+        localStorage.setItem("likes", JSON.stringify(arrayLikes));
+    }
 }
 
 function showAlbum() {
@@ -160,22 +174,29 @@ function showAlbum() {
 function showModal(index) {
     let modalContent = document.getElementById("modal-content");
     let album = albums[index];
+    console.log(album.getAuthor);
     let songSection = document.createElement("div");
+    
     for (let i = 0; i < albums[index].getSongs.length; i++) {
+        let objID = `obj${i}`;
+        let songTitle = albums[index].getSongs[i].getTitle;
+        console.log(albums[index].getSongs[i].getSong.src);
         songSection.innerHTML += `
-        <h3>${albums[index].getSongs[i].getTitle}</h3>
-        <audio controls>
-            <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
-        </audio>
-        <button onclick="saveLikes(${index}, ${i})">Añadir a la lista</button>
-    ` 
+            <h3>${songTitle}</h3>
+            <audio controls>
+                <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
+            </audio>
+            <button onclick="saveLikes('${albums[index].getSongs[i].getSong.src}', '${songTitle}', '${album.getAuthor}', '${albums[index].getImg}', '${objID}')">Añadir a la lista</button>
+        `; 
     }
+    
     modalContent.innerHTML = `
         <h3>${album.getTitle}</h3>
         <p>${album.getAuthor}</p>
-    `
+    `;
     modalContent.appendChild(songSection);
 }
+
 
 let localStorageLib = [];
 

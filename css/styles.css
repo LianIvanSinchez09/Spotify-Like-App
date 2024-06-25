@@ -47,8 +47,6 @@ body {
   background-color: #111;
 }
 
-
-
 ul {
   list-style-type: none;
   margin: 0;
@@ -81,11 +79,17 @@ a{
 }
 
 #user-likes {
+  margin-left: 200px;
+  gap: 20px;
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+}
+
+#user-likes img{
+  width: 250px;
+
 }
 
 #albumes-populares img{
