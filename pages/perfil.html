@@ -19,6 +19,53 @@
             <div id="biblioteca"></div>
         </ul>
     </header>
+
+    <section id="showcaseAndProfileInfo">
+        <div id="showcase-profile">
+            <h3 id="nombreUser">Nombre</h3>
+            <p>Lian Ivan</p>
+            <h3 id="apellidoUser">Apellido</h3>
+            <p>Sinchez</p>
+            <h3>DNI</h3>
+            <p>43530623</p>
+            <h3>E-mail</h3>
+            <p>liam.sinchez00@gmail.com</p>
+            <h3>Generos Musicales que me gustan</h3>
+            <p>*Generos*</p>
+            <h3>Descripcion</h3>
+            <p>Mi descripcion</p>
+        </div>
+    
+        <form id="user-profile" action="">
+            <label for="image">Foto de perfil</label>
+            <input type="file" id="image" name="image" accept="image/*">
+            <button id="submit-img" type="submit">Upload Image</button>
+            <!-- nombres -->
+            <label for="">Nombre(s)</label>
+            <input id="nombre" onchange="updateProfileShowcase(this.id)" type="text">
+            <!-- apellidos -->
+            <label for="">Apellido(s)</label>
+            <input id="apellido" onchange="updateProfileShowcase(this.id)" type="text">
+            <!-- DNI -->
+            <label for="">DNI</label>
+            <input id="dni" onchange="updateProfileShowcase(this.id)" type="number" name="" id="">
+            <!-- email -->
+            <label for="">E-mail</label>
+            <input id="email" onchange="updateProfileShowcase(this.id)" type="email">
+            <!-- checkboxes con los generos que le gusta al usuario -->
+            <label for="">Generos musicales que me gustan</label>
+            <div id="generos-musicales">
+    
+            </div>
+            <!-- descripcion (opcional) -->
+            <label for="">Mi descripcion</label>
+            <textarea id="desc" onchange="updateProfileShowcase(this.id)" name="" placeholder="Hola soy Lian, tengo 22 años me gusta..."></textarea>
+            <button onclick="crearPerfil()" type="submit">Crear Perfil</button>
+        </form>
+    </section>
+
+
+
 </body>
-<script></script>
+<script src="../js/perfil.js"></script>
 </html>

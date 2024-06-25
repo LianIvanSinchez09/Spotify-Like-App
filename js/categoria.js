@@ -87,16 +87,14 @@ class Album {
     }
 }
 
-let mainContentContainer = document.getElementById("category-main");
-
 let albums = [
     new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
     new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
 
     new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
-        new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Soundtrack"),
+    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Soundtrack"),
 
     new Album([new Song(new Audio("../songs/dryhands.mp3"), "A lo pibe rafagazo", "C418", "../imgs/dryhands.jpg"), 
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
@@ -106,21 +104,30 @@ let albums = [
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
     new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "RnB"),
 
-            new Album([new Song(new Audio("../songs/dryhands.mp3"), "A lo pibe rafagazo", "C418", "../imgs/dryhands.jpg"), 
-                new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-                new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "RnB"),
-    
-            
-    
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "A lo pibe rafagazo", "C418", "../imgs/dryhands.jpg"), 
+    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "RnB"),
+
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "A lo pibe rafagazo", "C418", "../imgs/dryhands.jpg"), 
+        new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
+        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Rock")
 ]
 
+//
 let categorias = [];
+let mainContentContainer = document.getElementById("category-main");
 
+//carga los estilos elegidos por el usuario desde custom.js
 function loadStylesLS(){
     let style = localStorage.getItem("style");
     document.body.style.background = style
 }
 
+/**
+ * Elimina elementos de un array y devuelve un array nuevo con los datos que cumplen la condicion
+ * @param {*} array 
+ * @returns 
+ */
 function eliminarRepetidos(array) {
     let newArray = [];
     for (let i = 0; i < array.length; i++) {
@@ -132,18 +139,20 @@ function eliminarRepetidos(array) {
     return newArray;
 }
 
-/** guarda una cancion likeada por el usuario
- * @param url
- * @param title
- * @param author
- * @param img
- * @returns void
-*/
+/**
+ * guarda una cancion likeada por el usuario
+ * @param {*} url 
+ * @param {*} title 
+ * @param {*} author 
+ * @param {*} img 
+ */
 function saveLikes(url, title, author, img) {
+    // si no hay nada en el LS entonces se le asigna el valor de un array vacio
     let arrayLikes = JSON.parse(localStorage.getItem("likes")) || [];
     let likedObjSong = { url, title, author, img };
     let c = 0;
     let encontrado = false;
+    //busco el elemento repetido
     while(c < arrayLikes.length && !encontrado){
         if(arrayLikes[c].title == likedObjSong.title){
             encontrado = true;
@@ -151,19 +160,28 @@ function saveLikes(url, title, author, img) {
         }
         c++;
     }
+    //si no hay ninguno repetido se guarda en el localstorage
     if(!encontrado){
         arrayLikes.push(likedObjSong);
         localStorage.setItem("likes", JSON.stringify(arrayLikes));
     }
 }
 
-
+/** Crea una card con una categoria musical segun los albums en albums[]
+ * @returns void
+ */
 function createCategory(){
+    //extraigo las categorias de los albums
     albums.forEach(album => {
         let albumCategory = album.getCategoria;
         categorias.push(albumCategory)
     });
+
+    //les elimino las repetidas
     let categoriaFilter = eliminarRepetidos(categorias);
+    saveCategorias(categoriaFilter);
+
+    //les creo a cada una un div con su clase propia y lo anido en mainContentContainer
     categoriaFilter.forEach(categoria => {
         let div = document.createElement("div");
         div.classList.add("flex-category")
@@ -173,10 +191,12 @@ function createCategory(){
         mainContentContainer.appendChild(div)
     });
 
+    //obtengo los hijos de mainContentContainer (los divs con titulo categoria)
     let categoryMainChild = mainContentContainer.childNodes
     let counter = 0;
 
-
+    //por cada hijo de mainContentContainer, mientras sea un DIV 
+    //y la categoria == categoria del album pasado en el foreach les creo una card con su respectivo genero musical
     for (let index = 0; index < categoryMainChild.length; index++) {
         if(categoryMainChild[index].tagName === "DIV"){
             albums.forEach(album => {
@@ -203,8 +223,9 @@ function createCategory(){
     }
 }
 
-
-
+function saveCategorias(categoriaArray){
+    localStorage.setItem("categorias", JSON.stringify(categoriaArray));
+}
 
 
 createCategory()

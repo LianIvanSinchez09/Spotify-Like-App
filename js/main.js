@@ -186,7 +186,7 @@ function showModal(index) {
             <audio controls>
                 <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
             </audio>
-            <button onclick="saveLikes('${albums[index].getSongs[i].getSong.src}', '${songTitle}', '${album.getAuthor}', '${albums[index].getImg}', '${objID}')">Añadir a la lista</button>
+            <button onclick="saveLikes('${albums[index].getSongs[i].getSong.src}', '${songTitle}', '${album.getAuthor}', '${albums[index].getImg}', '${objID}')">Añadir a tus me gusta</button>
         `; 
     }
     
@@ -265,7 +265,6 @@ function getLocalStorage(){
     }
     console.log(savedAlbumsHtml);
 }
-document.addEventListener("DOMContentLoaded", getLocalStorage);
 
 function cleanLibrary(){
     localStorage.removeItem("biblioteca")
@@ -278,6 +277,6 @@ function loadStylesLS(){
 }
 
 loadStylesLS()
-
 showAlbum();
+document.addEventListener("DOMContentLoaded", getLocalStorage);
 
