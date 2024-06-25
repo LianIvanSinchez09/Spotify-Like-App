@@ -106,6 +106,10 @@ let albums = [
             new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
             new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "RnB"),
 
+            new Album([new Song(new Audio("../songs/dryhands.mp3"), "A lo pibe rafagazo", "C418", "../imgs/dryhands.jpg"), 
+                new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
+                new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "RnB"),
+    
             
     
 ]
@@ -128,6 +132,32 @@ function eliminarRepetidos(array) {
     return newArray;
 }
 
+/** guarda una cancion likeada por el usuario
+ * @param url
+ * @param title
+ * @param author
+ * @param img
+ * @returns void
+*/
+function saveLikes(url, title, author, img) {
+    let arrayLikes = JSON.parse(localStorage.getItem("likes")) || [];
+    let likedObjSong = { url, title, author, img };
+    let c = 0;
+    let encontrado = false;
+    while(c < arrayLikes.length && !encontrado){
+        if(arrayLikes[c].title == likedObjSong.title){
+            encontrado = true;
+            console.log("true");
+        }
+        c++;
+    }
+    if(!encontrado){
+        arrayLikes.push(likedObjSong);
+        localStorage.setItem("likes", JSON.stringify(arrayLikes));
+    }
+}
+
+
 function createCategory(){
     albums.forEach(album => {
         let albumCategory = album.getCategoria;
@@ -144,20 +174,25 @@ function createCategory(){
     });
 
     let categoryMainChild = mainContentContainer.childNodes
+    let counter = 0;
+
 
     for (let index = 0; index < categoryMainChild.length; index++) {
         if(categoryMainChild[index].tagName === "DIV"){
             albums.forEach(album => {
                 if(categoryMainChild[index].childNodes[0].tagName === "H3"){
                     if(categoryMainChild[index].childNodes[0].innerHTML == album.getCategoria){
-                        album.getSongs.forEach(song => {
-                                let card = document.createElement("div")
-                                card.innerHTML = `
-                                    <h4>${song.getTitle}</h4>
-                                    <audio controls>
-                                        <source src="${song.getSong.src}">
-                                    </audio>
+                        let card = document.createElement("div")
+                            album.getSongs.forEach(song => {
+                                card.innerHTML += `
+                                <h4>${song.getTitle}</h4>
+                                <p>${album.author}</p>
+                                <audio controls>
+                                <source src="${song.getSong.src}">
+                                </audio>
+                                <button onclick="saveLikes('${song.src}', '${song.getTitle}', '${album.getAuthor}', '${album.getImg}')">Añadir a tus me gusta</button>
                                 `
+                                counter++
                                 categoryMainChild[index].appendChild(card)
                             });
                     }
@@ -167,6 +202,10 @@ function createCategory(){
         }
     }
 }
+
+
+
+
 
 createCategory()
 loadStylesLS()

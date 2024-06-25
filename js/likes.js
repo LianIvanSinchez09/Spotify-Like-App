@@ -1,4 +1,6 @@
 let likes = JSON.parse(localStorage.getItem("likes")) || [];
+
+
 console.log(likes);
 let likesSpace = document.getElementById("user-likes");
 let c = 0;
@@ -28,6 +30,7 @@ function showLikes() {
                     console.log(likes);
                     div.innerHTML = "";
                     localStorage.setItem("likes", JSON.stringify(likes));
+                    detectNoLikes()
                 };
             }
             c++;
@@ -42,6 +45,15 @@ function elementosSimilares(elemento){
     return elemento != likes[i];
 }
 
+function detectNoLikes(){
+    if(likes.length != 0){
+        document.addEventListener("DOMContentLoaded", showLikes)
+    }else{
+        let anuncioNoLikes = document.createElement("h1");
+        anuncioNoLikes.innerHTML = "No tienes canciones con Me Gusta";
+        likesSpace.appendChild(anuncioNoLikes)
+    }
+}
 
-document.addEventListener("DOMContentLoaded", showLikes)
+document.addEventListener("DOMContentLoaded", detectNoLikes)
 
