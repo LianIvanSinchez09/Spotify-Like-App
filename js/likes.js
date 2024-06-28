@@ -7,7 +7,7 @@ let c = 0;
 
 function showLikes() {
     if (likes.length !== 0) {
-        likes.forEach(likedElement => {
+        likes.forEach(likedElement => { //CAMBIAR POR FOR
             if (likedElement != null) {
                 let objCopia = likedElement;
                 let div = document.createElement("div");

@@ -22,24 +22,31 @@
 
     <section id="showcaseAndProfileInfo">
         <div id="showcase-profile">
-            <h3 id="nombreUser">Nombre</h3>
-            <p>Lian Ivan</p>
-            <h3 id="apellidoUser">Apellido</h3>
-            <p>Sinchez</p>
-            <h3>DNI</h3>
-            <p>43530623</p>
+            <div class="info-container">
+                <div class="essential-info">
+                    <h3>Nombre</h3>
+                    <p id="nombreUser">Tu Nombre</p>
+                    <h3>Apellido</h3>
+                    <p id="apellidoUser">Tu Apellido</p>
+                    <h3>DNI</h3>
+                    <p id="dniUser">Tu DNI</p>
+                </div>
+                <div id="perfil-pic-manager">
+                    <!-- imagen de perfil en js -->
+                     
+                </div>
+            </div>
             <h3>E-mail</h3>
-            <p>liam.sinchez00@gmail.com</p>
+            <p id="emailUser">Tu E-mail</p>
             <h3>Generos Musicales que me gustan</h3>
-            <p>*Generos*</p>
+            <p id="generosMusicaleslUser">Tus Gustos</p>
             <h3>Descripcion</h3>
-            <p>Mi descripcion</p>
+            <p id="desc">Mi descripcion</p>
         </div>
     
         <form id="user-profile" action="">
             <label for="image">Foto de perfil</label>
-            <input type="file" id="image" name="image" accept="image/*">
-            <button id="submit-img" type="submit">Upload Image</button>
+            <input id="fotoperfil" onchange="updateProfileShowcase(this.id)" type="file" id="image" name="image" accept="image/*">
             <!-- nombres -->
             <label for="">Nombre(s)</label>
             <input id="nombre" onchange="updateProfileShowcase(this.id)" type="text">
@@ -48,7 +55,7 @@
             <input id="apellido" onchange="updateProfileShowcase(this.id)" type="text">
             <!-- DNI -->
             <label for="">DNI</label>
-            <input id="dni" onchange="updateProfileShowcase(this.id)" type="number" name="" id="">
+            <input id="dni" onchange="updateProfileShowcase(this.id)" type="text" name="" id="">
             <!-- email -->
             <label for="">E-mail</label>
             <input id="email" onchange="updateProfileShowcase(this.id)" type="email">

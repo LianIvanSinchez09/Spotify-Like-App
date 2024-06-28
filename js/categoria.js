@@ -196,7 +196,7 @@ function createCategory(){
     let counter = 0;
 
     //por cada hijo de mainContentContainer, mientras sea un DIV 
-    //y la categoria == categoria del album pasado en el foreach les creo una card con su respectivo genero musical
+    //y su HTML == categoria del album pasado en el foreach les creo una card con su respectivo genero musical
     for (let index = 0; index < categoryMainChild.length; index++) {
         if(categoryMainChild[index].tagName === "DIV"){
             albums.forEach(album => {

@@ -1,3 +1,5 @@
+
+//clase de canciones
 class Song {
     constructor(song, title, author ,img){
         this.song = song;
@@ -39,6 +41,7 @@ class Song {
     }
 }
 
+//clase de albums
 class Album {
     constructor(songs, title, author ,img, categoria){
         this.categoria = categoria;
@@ -87,8 +90,8 @@ class Album {
     }
 }
 
-let lugarDeAlbumes = document.getElementById("albumes-populares");
 
+let lugarDeAlbumes = document.getElementById("albumes-populares");
 
 
 
