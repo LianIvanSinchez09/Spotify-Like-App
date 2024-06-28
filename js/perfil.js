@@ -71,10 +71,12 @@ function updateProfileShowcase(objeto){
                 imgSection.childNodes.forEach(element => {
                     if(element.tagName === "BUTTON"){
                         element.parentNode.innerHTML = "";
+                        elementoACambiar.disabled = false
                     }
                 });
             }
             elementoACambiar.value = null
+            elementoACambiar.disabled = true
             break;
         default:
             break;

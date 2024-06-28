@@ -6,6 +6,7 @@ body {
 
 .info-container {
   display: flex;
+  gap: 25px;
 }
 
 .essential-info {
@@ -14,20 +15,21 @@ body {
 }
 
 .perfil-pic {
+  width: 100%;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
-  gap: 25px;
 }
 
 .perfil-pic img {
-  padding: 50px;
-  margin: 30px;
+  width: 250px;
   border: 3px solid black;
   border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
+  -webkit-border-radius:;
+  -moz-border-radius:;
+  -ms-border-radius:;
+  -o-border-radius:;
 }
 
 #user-profile {
@@ -42,10 +44,10 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  -ms-border-radius: 15px;
-  -o-border-radius: 15px;
+  -webkit-border-radius:;
+  -moz-border-radius:;
+  -ms-border-radius:;
+  -o-border-radius:;
 }
 
 #showcaseAndProfileInfo {
@@ -58,16 +60,16 @@ body {
 #showcase-profile{
   color: rgb(0, 0, 0);
   background-color:rgb(255, 255, 255);
-  padding: 20px;
+  padding: 50px;
   border-radius: 15px;
   margin-top: 100px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  -ms-border-radius: 15px;
-  -o-border-radius: 15px;
+  -webkit-border-radius:;
+  -moz-border-radius:;
+  -ms-border-radius:;
+  -o-border-radius:;
 }
 
 #navbar {
