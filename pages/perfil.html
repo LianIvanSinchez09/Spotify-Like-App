@@ -21,44 +21,31 @@
     </header>
 
     <section id="showcaseAndProfileInfo">
-        <div id="showcase-profile">
-            <div class="info-container">
-                <div class="essential-info">
-                    <h3>Nombre</h3>
-                    <p id="nombreUser">Tu Nombre</p>
-                    <h3>Apellido</h3>
-                    <p id="apellidoUser">Tu Apellido</p>
-                    <h3>DNI</h3>
-                    <p id="dniUser">Tu DNI</p>
-                </div>
-                <div id="perfil-pic-manager">
-                    <!-- imagen de perfil en js -->
-                     
-                </div>
-            </div>
-            <h3>E-mail</h3>
-            <p id="emailUser">Tu E-mail</p>
-            <h3>Generos Musicales que me gustan</h3>
-            <p id="generosMusicaleslUser">Tus Gustos</p>
-            <h3>Descripcion</h3>
-            <p id="desc">Mi descripcion</p>
+        <div id="user-profile">
+
         </div>
     
-        <form id="user-profile" action="">
+        <form id="form-profile" action="">
             <label for="image">Foto de perfil</label>
-            <input id="fotoperfil" onchange="updateProfileShowcase(this.id)" type="file" id="image" name="image" accept="image/*">
+            <input id="fotoperfil" type="file" id="image" accept="imag">
             <!-- nombres -->
             <label for="">Nombre(s)</label>
-            <input id="nombre" onchange="updateProfileShowcase(this.id)" type="text">
+            <input id="nombre" type="text">
             <!-- apellidos -->
             <label for="">Apellido(s)</label>
-            <input id="apellido" onchange="updateProfileShowcase(this.id)" type="text">
+            <input id="apellido" type="text">
             <!-- DNI -->
             <label for="">DNI</label>
-            <input id="dni" onchange="updateProfileShowcase(this.id)" type="text" name="" id="">
+            <input id="dni" type="text" name="" id="">
             <!-- email -->
             <label for="">E-mail</label>
-            <input id="email" onchange="updateProfileShowcase(this.id)" type="email">
+            <input id="email" type="email">
+            <label for="">Fecha de Nacimiento</label>
+            <div id="input-date">
+                <input id="dia" type="text">
+                <input id="mes" type="text">
+                <input id="anio" type="text">
+            </div>
             <!-- checkboxes con los generos que le gusta al usuario -->
             <label for="">Generos musicales que me gustan</label>
             <div id="generos-musicales">
@@ -66,8 +53,8 @@
             </div>
             <!-- descripcion (opcional) -->
             <label for="">Mi descripcion</label>
-            <textarea id="desc" onchange="updateProfileShowcase(this.id)" name="" placeholder="Hola soy Lian, tengo 22 años me gusta..."></textarea>
-            <button onclick="crearPerfil()" type="submit">Crear Perfil</button>
+            <textarea id="desc" name="" placeholder="Hola soy Lian, tengo 22 años me gusta..."></textarea>
+            <a onclick="crearPerfil()">Crear Perfil</a>
         </form>
     </section>
 

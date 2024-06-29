@@ -4,35 +4,31 @@ body {
   background-color: #d6c3c3;
 }
 
-.info-container {
+.perfil-pic img {
+  width: 350px;
+  border: 3px solid black;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+.perfil-pic img:hover {
+  border: 3px solid white;
+  filter: blur(4px);
+  -webkit-filter: blur(4px);
+}
+
+
+#perfil-pic-manager {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 25px;
 }
 
-.essential-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.perfil-pic {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.perfil-pic img {
-  width: 250px;
-  border: 3px solid black;
-  border-radius: 50%;
-  -webkit-border-radius:;
-  -moz-border-radius:;
-  -ms-border-radius:;
-  -o-border-radius:;
-}
-
-#user-profile {
+#form-profile {
   background-color:white;
   padding: 20px;
   border-radius: 15px;
@@ -44,32 +40,31 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  -webkit-border-radius:;
-  -moz-border-radius:;
-  -ms-border-radius:;
-  -o-border-radius:;
 }
 
 #showcaseAndProfileInfo {
   margin-left: 200px;
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-#showcase-profile{
+#input-date {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  gap: 25px;
+}
+#input-date input {
+  width: 30px;
+}
+
+#user-profile{
   color: rgb(0, 0, 0);
-  background-color:rgb(255, 255, 255);
   padding: 50px;
   border-radius: 15px;
-  margin-top: 100px;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  -webkit-border-radius:;
-  -moz-border-radius:;
-  -ms-border-radius:;
-  -o-border-radius:;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
 }
 
 #navbar {
