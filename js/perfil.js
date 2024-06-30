@@ -6,9 +6,9 @@ let userProfileHTML = document.getElementById("user-profile");
 let userObjeto = JSON.parse(localStorage.getItem("user")) || null
 userProfileHTML.style.display = "none" 
 
-function cambiarInformacion(objeto, categorias){
-    let userObjetoConvert = JSON.parse(objeto);
-    let fechaConvert = new Date(userObjetoConvert.fechaNac);
+function cambiarInformacion(){
+    generosMusicaUsuario = [];
+    let userObjetoConvert = JSON.parse(localStorage.getItem("user"));
     let form = document.getElementById("form-profile");
     form.style.display = "flex";
     form.innerHTML = `
@@ -24,18 +24,16 @@ function cambiarInformacion(objeto, categorias){
             <input value=${userObjetoConvert.email} id="email" type="email">
             <div id="input-date">
                 <label for="">Dia</label>
-                <input value=${fechaConvert.getDate()} id="dia" type="text">
+                <input id="dia" type="text">
                 <label for="">Mes</label>
-                <input value=${fechaConvert.getMonth()} id="mes" type="text">
+                <input id="mes" type="text">
                 <label for="">Año</label>
-                <input value=${fechaConvert.getFullYear()} id="anio" type="text">
+                <input id="anio" type="text">
             </div>
             <label for="">Generos musicales que me gustan</label>
             <div id="generos-musicales">
 
             </div>
-            <label for="">Mi descripcion</label>
-            <textarea id="desc" name="" placeholder="Hola soy Lian, tengo 22 años me gusta..."></textarea>
             <a onclick="crearPerfil()">Realizar cambios</a>
     `
     crearCheckboxes(categorias)
@@ -140,7 +138,6 @@ function crearPerfil(){
     let apellido = document.getElementById("apellido");
     let dni = document.getElementById("dni");
     let email = document.getElementById("email");
-    let desc = document.getElementById("desc");
     //manipulacion de fecha de nacimiento
     let dia = parseInt(document.getElementById("dia").value);
     let mes = parseInt(document.getElementById("mes").value);
@@ -158,11 +155,8 @@ function crearPerfil(){
     let urlImg = null;
     //puntos
     let formPoints = 0;
-    //datos opcionales
-    let descripcion = document.getElementById("desc")
-    let generosLike = document.getElementById("generos-musicales");
     //valores
-    let formValues = [fotoPerfil, nombre, apellido, dni, email, descripcion, inputDate];
+    let formValues = [fotoPerfil, nombre, apellido, dni, email, inputDate];
     formValues.forEach(formElement => {
         switch (formElement.id) {
             case "nombre":
@@ -218,22 +212,17 @@ function crearPerfil(){
             break;
         }
     });
+    let userObjeto = {
+        nombre: nombre.value,
+        apellido: apellido.value,
+        dni: dni.value,
+        fechaNac: new Date(anio, mes - 1, dia),
+        imagenPerfil: urlImg,
+        email: email.value,
+        musicaLike: null
+    }
     if(formPoints == 6){
         let musicaLikeHTML = "";
-        let userObjeto = { //crear objeto en localstorage al principio del codigo
-            nombre: nombre.value,
-            apellido: apellido.value,
-            dni: dni.value,
-            fechaNac: new Date(anio, mes - 1, dia),
-            imagenPerfil: urlImg,
-            email: email.value,
-            desc: descripcion.value,
-            musicaLike: null
-        }
-        console.log(userObjeto);
-        if(!descripcion.value){
-            userObjeto.desc = "Descripcion no proveida";
-        }
         // console.log(generosMusicaUsuario.length);
         for (let index = 0; index < generosMusicaUsuario.length; index++) {
             console.log(index);
@@ -254,15 +243,13 @@ function crearPerfil(){
                         <p id="apellidoUser">${userObjeto.apellido}</p>
                         <h3>DNI</h3>
                         <p id="dniUser">${userObjeto.dni}</p>
-                        <h3>Fecha de Nacimiento</h3>
                         <h3>E-mail</h3>
                         <p id="emailUser">${userObjeto.email}l</p>
                         <h3>Generos Musicales que me gustan</h3>
                         <p id="generosMusicaleslUser">
                             ${musicaLikeHTML}
                         </p>
-                        <h3>Descripcion</h3>
-                        <p id="desc">${userObjeto.desc}</p>
+                        <a onclick="cambiarInformacion()" class="cerrar-sesion">Cambiar Informacion</a>
                     </div>
                     <a class="perfil-pic" id="perfil-pic-manager">
                         <img src=${urlImg} alt="fotoUsuario">
@@ -279,31 +266,29 @@ function cargarPerfil(){
     let form = document.getElementById("form-profile");
     if(userObjeto){
         form.style.display = "none"
-        userProfileHTML.innerHTML = `
-        <div class="info-container">
-            <div class="essential-info">
-                <h3>Nombre</h3>
-                <p id="nombreUser">${userObjeto.nombre}</p>
-                <h3>Apellido</h3>
-                <p id="apellidoUser">${userObjeto.apellido}</p>
-                <h3>DNI</h3>
-                <p id="dniUser">${userObjeto.dni}</p>
-                <h3>E-mail</h3>
-                <p id="emailUser">${userObjeto.email}l</p>
-                <h3>Generos Musicales que me gustan</h3>
-                <p id="generosMusicaleslUser">
-                    ${userObjeto.musicaLike}
-                </p>
-                <h3>Descripcion</h3>
-                <p id="desc">${userObjeto.desc}</p>
-                <a onclick="cambiarInformacion(JSON.stringify(userObjeto), categorias)" class="cerrar-sesion">Cambiar Informacion</a>            
+        userProfileHTML.innerHTML = 
+        `
+            <div class="info-container">
+                <div class="essential-info">
+                    <h3>Nombre</h3>
+                    <p id="nombreUser">${userObjeto.nombre}</p>
+                    <h3>Apellido</h3>
+                    <p id="apellidoUser">${userObjeto.apellido}</p>
+                    <h3>DNI</h3>
+                    <p id="dniUser">${userObjeto.dni}</p>
+                    <h3>E-mail</h3>
+                    <p id="emailUser">${userObjeto.email}l</p>
+                    <h3>Generos Musicales que me gustan</h3>
+                    <p id="generosMusicaleslUser">
+                        ${userObjeto.musicaLike}
+                    </p>
+                    <a onclick="cambiarInformacion()" class="cerrar-sesion">Cambiar Informacion</a>            
+                </div>
+                <a class="perfil-pic" id="perfil-pic-manager">
+                    <img src=${userObjeto.imagenPerfil} alt="fotoUsuario">
+                </a>  
             </div>
-            <a class="perfil-pic" id="perfil-pic-manager">
-                <img src=${userObjeto.imagenPerfil} alt="fotoUsuario">
-            </a>  
-        </div>
-`
-        crearCheckboxes(categorias)
+        `
         userProfileHTML.style.display = "flex"
     }
 }
