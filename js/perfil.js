@@ -1,30 +1,47 @@
-// let imgSection = document.getElementById("perfil-pic-manager");
-// imgSection.classList.add("perfil-pic")
-// let urlImg = URL.createObjectURL(formElement.files[0]);
-// localStorage.setItem("urlImg", urlImg);
-// let anchorButton = document.createElement("a");
-// let imgElement = document.createElement("img");
-// imgElement.src = localStorage.getItem("urlImg")
-// anchorButton.onclick = () => {
-//     imgSection.childNodes.forEach(element => {
-//         if(element.tagName === "A"){
-//             element.parentNode.innerHTML = "";
-//             imgSection.classList.remove("perfil-pic")
-//             formElement.disabled = false
-//         }
-//     });
-// }
-// anchorButton.appendChild(imgElement)
-// imgSection.appendChild(anchorButton)
-// formElement.value = null
-// formElement.disabled = true
 
-
+let infoPerfil = JSON.parse(localStorage.getItem("infoPerfil")) || [];
 let categorias = JSON.parse(localStorage.getItem("categorias")) || [];
-let checkBoxArea = document.getElementById("generos-musicales")
 let showcaseAndProfileInfo = document.getElementById("showcaseAndProfileInfo");
-let userProfile = document.getElementById("user-profile");
-userProfile.style.display = "none" 
+let userProfileHTML = document.getElementById("user-profile");
+let userObjeto = JSON.parse(localStorage.getItem("user")) || null
+userProfileHTML.style.display = "none" 
+
+function cambiarInformacion(objeto, categorias){
+    let userObjetoConvert = JSON.parse(objeto);
+    let fechaConvert = new Date(userObjetoConvert.fechaNac);
+    let form = document.getElementById("form-profile");
+    form.style.display = "flex";
+    form.innerHTML = `
+            <label for="image">Foto de perfil</label>
+            <input id="fotoperfil" type="file" id="image" accept="image">
+            <label for="">Nombre(s)</label>
+            <input value=${userObjetoConvert.nombre} id="nombre" type="text">
+            <label for="">Apellido(s)</label>
+            <input value=${userObjetoConvert.apellido} id="apellido" type="text">
+            <label for="">DNI</label>
+            <input value=${userObjetoConvert.dni} id="dni" type="text" name="" id="">
+            <label for="">E-mail</label>
+            <input value=${userObjetoConvert.email} id="email" type="email">
+            <div id="input-date">
+                <label for="">Dia</label>
+                <input value=${fechaConvert.getDate()} id="dia" type="text">
+                <label for="">Mes</label>
+                <input value=${fechaConvert.getMonth()} id="mes" type="text">
+                <label for="">Año</label>
+                <input value=${fechaConvert.getFullYear()} id="anio" type="text">
+            </div>
+            <label for="">Generos musicales que me gustan</label>
+            <div id="generos-musicales">
+
+            </div>
+            <label for="">Mi descripcion</label>
+            <textarea id="desc" name="" placeholder="Hola soy Lian, tengo 22 años me gusta..."></textarea>
+            <a onclick="crearPerfil()">Realizar cambios</a>
+    `
+    crearCheckboxes(categorias)
+    userProfileHTML.style.display = "none";
+}
+
 
 function verificarEmail(input){
     let gmailVerif = "@gmail.com"
@@ -48,8 +65,7 @@ function validarInputString(input){
     }else{
         while (index < input.value.length && esvalido) {
             if(!(validCharacters.includes(input.value.toLowerCase()[index]))){
-                esvalido = false;
-                console.log("false");
+                esvalido = false; 
             }
             index++;
         }
@@ -84,25 +100,36 @@ function validarInputInt(input){
     return esvalido;
 }
 
+let localStorageLikes = JSON.parse(localStorage.getItem("likesGeneroMusical")) || [];
+let generosMusicaUsuario = [];
 
 /**
  * crea inputs de tipo checkbox con la categoria en el array
  * @param {*} array categorias
  */
-function createCheckboxes(categorias){
+function crearCheckboxes(categorias){
+    let checkBoxArea = document.getElementById("generos-musicales")
     if(categorias.length == 0){
         let aviso = document.createElement("p");
         aviso.innerHTML = "No hay categorias (no hay albums)";
         checkBoxArea.appendChild(aviso)
     }else{
-        categorias.forEach(categoria => {
+        for (let index = 0; index < categorias.length; index++) {
             let checkBoxCategoria = document.createElement("input");
             let label = document.createElement("label");
-            label.innerHTML = categoria
+            let generoCopia = categorias[index];
+            label.innerHTML = categorias[index]
             checkBoxCategoria.type = "checkbox";  
+            checkBoxCategoria.onclick = () => {
+                if(!generosMusicaUsuario.includes(categorias[index])){
+                    generosMusicaUsuario.push(categorias[index]);
+                }else{
+                    generosMusicaUsuario = generosMusicaUsuario.filter(genero => genero !== generoCopia )
+                }
+            }
             checkBoxArea.appendChild(label)
             checkBoxArea.appendChild(checkBoxCategoria)
-        });
+        }
     }
 }
 
@@ -113,6 +140,7 @@ function crearPerfil(){
     let apellido = document.getElementById("apellido");
     let dni = document.getElementById("dni");
     let email = document.getElementById("email");
+    let desc = document.getElementById("desc");
     //manipulacion de fecha de nacimiento
     let dia = parseInt(document.getElementById("dia").value);
     let mes = parseInt(document.getElementById("mes").value);
@@ -172,42 +200,115 @@ function crearPerfil(){
                 }
             break;
             case "input-date":
-                if(fechaValida){
-                    formElement.style.border = "none";
+                if(fechaValida && dia && mes && anio){
+                    inputDate.childNodes.forEach(element => {
+                        if(element.tagName === "INPUT"){
+                            element.style.border = "none";
+                        }
+                    });
                     formPoints++;
                 }else{
-                    formElement.style.border = "2px solid red";
+                    inputDate.childNodes.forEach(element => {
+                        if(element.tagName === "INPUT"){
+                            element.style.border = "2px solid red";
+                        }
+                    });
                 }
                 default:
             break;
         }
     });
     if(formPoints == 6){
+        let musicaLikeHTML = "";
+        let userObjeto = { //crear objeto en localstorage al principio del codigo
+            nombre: nombre.value,
+            apellido: apellido.value,
+            dni: dni.value,
+            fechaNac: new Date(anio, mes - 1, dia),
+            imagenPerfil: urlImg,
+            email: email.value,
+            desc: descripcion.value,
+            musicaLike: null
+        }
+        console.log(userObjeto);
+        if(!descripcion.value){
+            userObjeto.desc = "Descripcion no proveida";
+        }
+        // console.log(generosMusicaUsuario.length);
+        for (let index = 0; index < generosMusicaUsuario.length; index++) {
+            console.log(index);
+            if(index != 0){
+                musicaLikeHTML += ", " + generosMusicaUsuario[index];
+            }else{
+                musicaLikeHTML += generosMusicaUsuario[index];
+            }
+        }
+        userObjeto.musicaLike = musicaLikeHTML;
         form.style.display = "none"
-        userProfile.innerHTML = `
+        userProfileHTML.innerHTML = `
                 <div class="info-container">
-                    <h3>Nombre</h3>
-                    <p id="nombreUser">${nombre.value}</p>
-                    <h3>Apellido</h3>
-                    <p id="apellidoUser">${apellido.value}</p>
-                    <h3>DNI</h3>
-                    <p id="dniUser">${dni.value}</p>
-                    <h3>Fecha de Nacimiento</h3>
-                    <p>${dia} - ${mes} - ${anio}</p>
-                    <h3>E-mail</h3>
-                    <p id="emailUser">${email.value}l</p>
-                    <h3>Generos Musicales que me gustan</h3>
-                    <p id="generosMusicaleslUser"></p>
-                    <h3>Descripcion</h3>
-                    <p id="desc">${descripcion.value}</p>
-                    <div id="perfil-pic-manager">
+                    <div class="essential-info">
+                        <h3>Nombre</h3>
+                        <p id="nombreUser">${userObjeto.nombre}</p>
+                        <h3>Apellido</h3>
+                        <p id="apellidoUser">${userObjeto.apellido}</p>
+                        <h3>DNI</h3>
+                        <p id="dniUser">${userObjeto.dni}</p>
+                        <h3>Fecha de Nacimiento</h3>
+                        <h3>E-mail</h3>
+                        <p id="emailUser">${userObjeto.email}l</p>
+                        <h3>Generos Musicales que me gustan</h3>
+                        <p id="generosMusicaleslUser">
+                            ${musicaLikeHTML}
+                        </p>
+                        <h3>Descripcion</h3>
+                        <p id="desc">${userObjeto.desc}</p>
+                    </div>
+                    <a class="perfil-pic" id="perfil-pic-manager">
                         <img src=${urlImg} alt="fotoUsuario">
-                    </div>     
+                    </a>  
                 </div>
         `
-        userProfile.style.display = "flex"
+        userProfileHTML.style.display = "flex"
+        localStorage.setItem("user", JSON.stringify(userObjeto));
+    }
+    
+}
+
+function cargarPerfil(){
+    let form = document.getElementById("form-profile");
+    if(userObjeto){
+        form.style.display = "none"
+        userProfileHTML.innerHTML = `
+        <div class="info-container">
+            <div class="essential-info">
+                <h3>Nombre</h3>
+                <p id="nombreUser">${userObjeto.nombre}</p>
+                <h3>Apellido</h3>
+                <p id="apellidoUser">${userObjeto.apellido}</p>
+                <h3>DNI</h3>
+                <p id="dniUser">${userObjeto.dni}</p>
+                <h3>E-mail</h3>
+                <p id="emailUser">${userObjeto.email}l</p>
+                <h3>Generos Musicales que me gustan</h3>
+                <p id="generosMusicaleslUser">
+                    ${userObjeto.musicaLike}
+                </p>
+                <h3>Descripcion</h3>
+                <p id="desc">${userObjeto.desc}</p>
+                <a onclick="cambiarInformacion(JSON.stringify(userObjeto), categorias)" class="cerrar-sesion">Cambiar Informacion</a>            
+            </div>
+            <a class="perfil-pic" id="perfil-pic-manager">
+                <img src=${userObjeto.imagenPerfil} alt="fotoUsuario">
+            </a>  
+        </div>
+`
+        crearCheckboxes(categorias)
+        userProfileHTML.style.display = "flex"
     }
 }
 
 
-createCheckboxes(categorias)
+crearCheckboxes(categorias)
+
+document.addEventListener("DOMContentLoaded", cargarPerfil)

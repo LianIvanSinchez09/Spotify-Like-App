@@ -200,9 +200,6 @@ function showModal(index) {
     modalContent.appendChild(songSection);
 }
 
-
-let localStorageLib = [];
-
 function addAlbum(index) {
     let biblioteca = document.getElementById("biblioteca");
     if(!biblioteca.innerHTML.includes(albums[index].getAuthor)){

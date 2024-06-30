@@ -1,7 +1,5 @@
 let likes = JSON.parse(localStorage.getItem("likes")) || [];
 
-
-console.log(likes);
 let likesSpace = document.getElementById("user-likes");
 let c = 0;
 
