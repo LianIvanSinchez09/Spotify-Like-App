@@ -212,16 +212,17 @@ function crearPerfil(){
             break;
         }
     });
-    let userObjeto = {
-        nombre: nombre.value,
-        apellido: apellido.value,
-        dni: dni.value,
-        fechaNac: new Date(anio, mes - 1, dia),
-        imagenPerfil: urlImg,
-        email: email.value,
-        musicaLike: null
-    }
     if(formPoints == 6){
+        let userObjeto = {
+            nombre: nombre.value,
+            apellido: apellido.value,
+            dni: dni.value,
+            fechaNac: new Date(anio, mes - 1, dia),
+            imagenPerfil: urlImg,
+            email: email.value,
+            musicaLike: null
+        }
+        localStorage.setItem("user", JSON.stringify(userObjeto));
         let musicaLikeHTML = "";
         // console.log(generosMusicaUsuario.length);
         for (let index = 0; index < generosMusicaUsuario.length; index++) {
@@ -257,7 +258,6 @@ function crearPerfil(){
                 </div>
         `
         userProfileHTML.style.display = "flex"
-        localStorage.setItem("user", JSON.stringify(userObjeto));
     }
     
 }
