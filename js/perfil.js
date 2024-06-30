@@ -114,14 +114,17 @@ function crearPerfil(){
     let dni = document.getElementById("dni");
     let email = document.getElementById("email");
     //manipulacion de fecha de nacimiento
-    let dia = document.getElementById("dia").value;
-    let mes = document.getElementById("mes").value;
-    let anio = document.getElementById("anio").value;
+    let dia = parseInt(document.getElementById("dia").value);
+    let mes = parseInt(document.getElementById("mes").value);
+    let anio = parseInt(document.getElementById("anio").value);
     let fechaActual = new Date();
+    let anioActual = fechaActual.getFullYear();
+    let inputDate = document.getElementById("input-date");
     let anioBisiesto = (anio % 4 === 0 && anio % 100 !== 0) || (anio % 400 === 0);
-    let fechaInvalidaGenerica = dia <= 0 || mes <= 0 || anio <= 0 || dia > 31 || mes > 12 || anio > fechaActual.getFullYear();
-    let fechaInvalidaFebrero = (mes === 2 && ((anioBisiesto && dia > 29) || (!anioBisiesto && dia > 28)));
+    let fechaInvalidaGenerica = dia <= 0 || mes <= 0 || anio <= 0 || dia > 31 || mes > 12 || anio > anioActual;
+    let fechaInvalidaFebrero = (mes === 2 && (anioBisiesto && dia > 29) || (!anioBisiesto && dia > 28));
     let fechaInvalidaAbrilANoviembre = [4, 6, 9, 11].includes(mes) && dia > 30;
+    let fechaValida = !fechaInvalidaGenerica && !fechaInvalidaFebrero && !fechaInvalidaAbrilANoviembre;
     //foto de perfil
     let fotoPerfil = document.getElementById("fotoperfil");
     let urlImg = null;
@@ -131,7 +134,7 @@ function crearPerfil(){
     let descripcion = document.getElementById("desc")
     let generosLike = document.getElementById("generos-musicales");
     //valores
-    let formValues = [fotoPerfil, nombre, apellido, dni, email, descripcion];
+    let formValues = [fotoPerfil, nombre, apellido, dni, email, descripcion, inputDate];
     formValues.forEach(formElement => {
         switch (formElement.id) {
             case "nombre":
@@ -167,12 +170,19 @@ function crearPerfil(){
                 } else {
                     formElement.style.border = "2px solid red";
                 }
-                break;
+            break;
+            case "input-date":
+                if(fechaValida){
+                    formElement.style.border = "none";
+                    formPoints++;
+                }else{
+                    formElement.style.border = "2px solid red";
+                }
                 default:
             break;
         }
     });
-    if(formPoints == 5){
+    if(formPoints == 6){
         form.style.display = "none"
         userProfile.innerHTML = `
                 <div class="info-container">
@@ -182,6 +192,8 @@ function crearPerfil(){
                     <p id="apellidoUser">${apellido.value}</p>
                     <h3>DNI</h3>
                     <p id="dniUser">${dni.value}</p>
+                    <h3>Fecha de Nacimiento</h3>
+                    <p>${dia} - ${mes} - ${anio}</p>
                     <h3>E-mail</h3>
                     <p id="emailUser">${email.value}l</p>
                     <h3>Generos Musicales que me gustan</h3>
