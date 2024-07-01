@@ -166,7 +166,7 @@ albums.forEach(album => {
         songSpace.innerHTML = `
             <img src="${album.getImg}" alt="Album Cover">
             <h3>${element.getTitle}</h3>
-            <button>Añadir a biblioteca</button>
+            <button onclick="addAlbum(${counter})">Añadir a biblioteca</button>
           `;;
         songContainer.appendChild(songSpace);
         counter++;
