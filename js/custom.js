@@ -92,20 +92,23 @@ let albums = [
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
     new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
 
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Rock"),
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Luciana", "../imgs/dryhands.jpg"), 
+    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Luciana", "../imgs/haggstrom.jpg"), 
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Luciana", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Rock"),
 
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Progressive Rock"),
-
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Game Soundtrack"),
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Lian", "../imgs/dryhands.jpg"), 
+    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Lian", "../imgs/haggstrom.jpg"), 
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Lian", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Progressive Rock")
 ]
 
 let userObjeto = JSON.parse(localStorage.getItem("user")) || null
+let historial = JSON.parse(localStorage.getItem("historial")) || [];
+
+function guardarHistorial(index, i){
+    // console.log(albums[index].getSongs[i]);
+    historial.push(albums[index].getSongs[i]);
+    localStorage.setItem("historial", JSON.stringify(historial));
+}
 
 function check() {
     let optionDarkLight = document.querySelector('input[name="theme"]:checked')
@@ -124,8 +127,21 @@ function check() {
         default:
             break;
     }
-
 }
+
+function mostrarHistorial(){
+    let seccionHistorial = document.getElementById("historial");
+    historial.forEach(song => {
+        let title = document.createElement("h4");
+        let author = document.createElement("p");
+        title.innerHTML = song.title
+        author.innerHTML = song.author
+        seccionHistorial.appendChild(title)
+        seccionHistorial.appendChild(author)
+    });
+}
+
+mostrarHistorial()
 
 let userLikes = document.getElementById("user-likes");
 
@@ -190,6 +206,8 @@ function crearGenerosMusica(){
     let categorias = JSON.parse(localStorage.getItem("categorias")) || [];
     for (let index = 0; index < categorias.length; index++) {
         let label = document.createElement("label");
+        let div = document.createElement("div");
+        div.classList.add("inputCheckboxAjustes")
         label.innerHTML = categorias[index]; 
         let input = document.createElement("input");
         input.type = "checkbox";
@@ -204,8 +222,9 @@ function crearGenerosMusica(){
             }
         } 
         input.value = categorias[index];
-        generos.appendChild(label)
-        generos.appendChild(input)
+        div.appendChild(label)
+        div.appendChild(input)
+        generos.appendChild(div)
     }
 }
 

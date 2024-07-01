@@ -22,15 +22,23 @@
 
     <section id="main-content">
         <h1>Configuracion</h1>
-
         <form action="">
-            <label for="opt1dark">Dark mode</label>
-            <input onclick="check()" type="radio" name="theme" id="gray" value="dark">
-            <label for="opt1light">Light mode</label>
-            <input onclick="check()" type="radio" name="theme" id="white" value="light">
-            <div id="genres">
-                <label for="genres">Mostrar canciones/albumes de genero:</label>
-
+            <div class="estetica">
+                <h2>Estetica</h2>
+                <label for="opt1dark">Dark mode</label>
+                <input onclick="check()" type="radio" name="theme" id="gray" value="dark">
+                <label for="opt1light">Light mode</label>
+                <input onclick="check()" type="radio" name="theme" id="white" value="light">
+            </div>
+            <div class="organizar">
+                <h2>Organizar</h2>
+                <div id="genres">
+                    <label class="titulo-ajustes" for="genres">Mostrar canciones/albumes de genero:</label>
+                </div>
+                <h2>Tu historial</h2>
+                <div id="historial">
+                    <!-- historial -->
+                </div>
             </div>
         </form>
         

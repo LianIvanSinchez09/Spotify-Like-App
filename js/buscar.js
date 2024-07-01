@@ -181,7 +181,10 @@ albums.forEach(album => {
         songSpace.innerHTML = `
             <img src="${album.getImg}" alt="Album Cover">
             <h3>${cancion.getTitle}</h3>
-            <button onclick="saveLikes('${cancion.getSong.src}', '${cancion.getTitle}', '${cancion.getAuthor}', '${album.getImg}')">Añadir a tus me gusta</button>
+            <div class="searched-element-button">
+                <button onclick="saveLikes('${cancion.getSong.src}', '${cancion.getTitle}', '${cancion.getAuthor}', '${album.getImg}')">Añadir a tus me gusta</button>
+                <button onclick="addAlbum(${counter})">Añadir a tu biblioteca</button>
+            </div>
           `;;
         songContainer.appendChild(songSpace);
         counter++;

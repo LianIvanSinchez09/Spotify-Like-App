@@ -100,17 +100,13 @@ let albums = [
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
     new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
 
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Rock"),
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Luciana", "../imgs/dryhands.jpg"), 
+    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Luciana", "../imgs/haggstrom.jpg"), 
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Luciana", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Rock"),
 
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Progressive Rock"),
-
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Game Soundtrack"),
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Lian", "../imgs/dryhands.jpg"), 
+    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Lian", "../imgs/haggstrom.jpg"), 
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Lian", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Progressive Rock")
 ]
 
 let preferenciasUsuario = JSON.parse(localStorage.getItem("preferenciasMusica")) || [];
@@ -209,6 +205,14 @@ function showAlbum() {
     }
 }
 
+let historial = JSON.parse(localStorage.getItem("historial")) || [];
+
+function guardarHistorial(index, i){
+    // console.log(albums[index].getSongs[i]);
+    historial.push(albums[index].getSongs[i]);
+    localStorage.setItem("historial", JSON.stringify(historial));
+}
+
 function showModal(index) {
     let modalContent = document.getElementById("modal-content");
     let album = albums[index];
@@ -218,7 +222,7 @@ function showModal(index) {
         let songTitle = albums[index].getSongs[i].getTitle;
         songSection.innerHTML += `
             <h3>${songTitle}</h3>
-            <audio controls>
+            <audio onplay="guardarHistorial(${index}, ${i})" controls>
                 <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
             </audio>
             <button onclick="saveLikes('${albums[index].getSongs[i].getSong.src}', '${songTitle}', '${album.getAuthor}', '${albums[index].getImg}', '${objID}')">Añadir a tus me gusta</button>
