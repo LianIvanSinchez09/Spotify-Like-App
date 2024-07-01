@@ -103,7 +103,6 @@ let albums = [
     new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
     new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Game Soundtrack"),
-
 ]
 
 //
@@ -117,7 +116,7 @@ function loadStylesLS(){
 }
 
 /**
- * Elimina elementos de un array y devuelve un array nuevo con los datos que cumplen la condicion
+ * Filta elementos de un array y devuelve un array nuevo con los datos que cumplen la condicion
  * @param {*} array 
  * @returns 
  */
@@ -283,9 +282,8 @@ function showModal(index) {
     modalContent.appendChild(songSection);
 }
 
+
+
 document.addEventListener("DOMContentLoaded", getLocalStorage);
-
-
 createCategory()
 loadStylesLS()
-let arrayChecked = eliminarRepetidos(categorias)

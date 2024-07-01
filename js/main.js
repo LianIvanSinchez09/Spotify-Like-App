@@ -212,13 +212,10 @@ function showAlbum() {
 function showModal(index) {
     let modalContent = document.getElementById("modal-content");
     let album = albums[index];
-    console.log(album.getAuthor);
     let songSection = document.createElement("div");
-    
     for (let i = 0; i < albums[index].getSongs.length; i++) {
         let objID = `obj${i}`;
         let songTitle = albums[index].getSongs[i].getTitle;
-        console.log(albums[index].getSongs[i].getSong.src);
         songSection.innerHTML += `
             <h3>${songTitle}</h3>
             <audio controls>
@@ -246,7 +243,6 @@ function addAlbum(index) {
             <p>${albums[index].getCategoria}</p>
         `;
         // console.log(albums[index].getTitle);
-        console.log(biblioteca);
         // console.log();
         biblioteca.appendChild(bibliotecaEspacio);
         let albumsHtml = biblioteca.innerHTML;

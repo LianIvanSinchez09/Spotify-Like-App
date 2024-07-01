@@ -106,25 +106,6 @@ let albums = [
     new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Game Soundtrack"),
 ]
 
-function showModal(index) {
-    let modalContent = document.getElementById("modal-content");
-    let album = albums[index];
-    let songSection = document.createElement("div");
-    for (let i = 0; i < albums[index].getSongs.length; i++) {
-        songSection.innerHTML += `
-        <h3>${albums[index].getSongs[i].getTitle}</h3>
-        <audio controls>
-            <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
-        </audio>
-    ` 
-    }
-    modalContent.innerHTML = `
-        <h3>${album.getTitle}</h3>
-        <p>${album.getAuthor}</p>
-    `
-    modalContent.appendChild(songSection);
-}
-
 function addAlbum(index) {
     let biblioteca = document.getElementById("biblioteca");
     if(!biblioteca.innerHTML.includes(albums[index].getAuthor)){
@@ -161,19 +142,46 @@ function addAlbum(index) {
     }
 }
 
+/**
+ * guarda una cancion likeada por el usuario
+ * @param {*} url 
+ * @param {*} title 
+ * @param {*} author 
+ * @param {*} img 
+ */
+function saveLikes(url, title, author, img) {
+    // si no hay nada en el LS entonces se le asigna el valor de un array vacio
+    let arrayLikes = JSON.parse(localStorage.getItem("likes")) || [];
+    let likedObjSong = { url, title, author, img };
+    let c = 0;
+    let encontrado = false;
+    //busco el elemento repetido
+    while(c < arrayLikes.length && !encontrado){
+        if(arrayLikes[c].title == likedObjSong.title){
+            encontrado = true;
+        }
+        c++;
+    }
+    //si no hay ninguno repetido se guarda en el localstorage
+    if(!encontrado){
+        arrayLikes.push(likedObjSong);
+        localStorage.setItem("likes", JSON.stringify(arrayLikes));
+    }
+}
+
 const btnInput = document.getElementById("data-button");
 const songContainer = document.getElementById("content");
 let counter = 0;
 
 albums.forEach(album => {
-    album.getSongs.forEach(element => {
+    album.getSongs.forEach(cancion => {
         let songSpace = document.createElement("li");
         songSpace.classList.add("song-card")
         songSpace.id = `songSpace${counter}`;
         songSpace.innerHTML = `
             <img src="${album.getImg}" alt="Album Cover">
-            <h3>${element.getTitle}</h3>
-            <button onclick="addAlbum(${counter})">Añadir a biblioteca</button>
+            <h3>${cancion.getTitle}</h3>
+            <button onclick="saveLikes('${cancion.getSong.src}', '${cancion.getTitle}', '${cancion.getAuthor}', '${album.getImg}')">Añadir a tus me gusta</button>
           `;;
         songContainer.appendChild(songSpace);
         counter++;
