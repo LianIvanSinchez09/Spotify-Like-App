@@ -149,7 +149,6 @@ function saveLikes(url, title, author, img) {
     while(c < arrayLikes.length && !encontrado){
         if(arrayLikes[c].title == likedObjSong.title){
             encontrado = true;
-            console.log("true");
         }
         c++;
     }
@@ -164,6 +163,9 @@ function saveLikes(url, title, author, img) {
  * @returns void
  */
 function createCategory(){
+
+    let preferenciasUsuario = JSON.parse(localStorage.getItem("preferenciasMusica")) || [];
+
     //extraigo las categorias de los albums
     albums.forEach(album => {
         let albumCategory = album.getCategoria;
@@ -176,17 +178,22 @@ function createCategory(){
 
     //les creo a cada una un div con su clase propia y lo anido en mainContentContainer
     categoriaFilter.forEach(categoria => {
-        let div = document.createElement("div");
-        div.classList.add("flex-category")
-        let titleCategoria = document.createElement("h3");
-        titleCategoria.innerHTML = categoria;
-        div.appendChild(titleCategoria)
-        mainContentContainer.appendChild(div)
+        if(preferenciasUsuario.includes(categoria)){
+            let div = document.createElement("div");
+            div.classList.add("flex-category")
+            let titleCategoria = document.createElement("h3");
+            titleCategoria.innerHTML = categoria;
+            div.appendChild(titleCategoria)
+            mainContentContainer.appendChild(div)
+        }
     });
 
     //obtengo los hijos de mainContentContainer (los divs con titulo categoria)
     let categoryMainChild = mainContentContainer.childNodes
     let counter = 0;
+
+
+
 
     //por cada hijo de mainContentContainer, mientras sea un DIV 
     //y su HTML == categoria del album pasado en el foreach les creo una card con su respectivo genero musical
@@ -200,7 +207,7 @@ function createCategory(){
                                 card.innerHTML += `
                                 <h4>${song.getTitle}</h4>
                                 <p>${album.author}</p>
-                                <audio controls>
+                                <audio controls onplay="reproducirEvent()">
                                 <source src="${song.getSong.src}">
                                 </audio>
                                 <button onclick="saveLikes('${song.src}', '${song.getTitle}', '${album.getAuthor}', '${album.getImg}')">Añadir a tus me gusta</button>

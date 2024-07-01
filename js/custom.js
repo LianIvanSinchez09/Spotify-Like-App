@@ -105,6 +105,8 @@ let albums = [
     new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack")            
 ]
 
+let userObjeto = JSON.parse(localStorage.getItem("user")) || null
+
 function check() {
     let optionDarkLight = document.querySelector('input[name="theme"]:checked')
     loadStylesLS()
@@ -131,7 +133,6 @@ function saveLikes(albumOrSong){
     let likes = [];
     likes.push(albumOrSong);
     localStorage.setItem("user_likes", JSON.stringify(albumOrSong));
-    console.log(localStorage.getItem("user_likes"));
 }
 
 function showModal(index) {
@@ -159,7 +160,6 @@ function getLocalStorage(){
     let savedAlbumsHtml = localStorage.getItem('biblioteca');
     if(savedAlbumsHtml){
         biblioteca.innerHTML = savedAlbumsHtml;
-        console.log(biblioteca.childNodes);
         for (let index = 0; index < biblioteca.childNodes.length; index++) {
             let btn = document.getElementById(`albumBiblioteca${index}`);
             console.log(btn);
@@ -183,6 +183,38 @@ function getLocalStorage(){
     }
 }
 
+let preferencias = JSON.parse(localStorage.getItem("preferenciasMusica")) || [];
+
+function crearGenerosMusica(){
+    let generos = document.getElementById("genres");
+    let categorias = JSON.parse(localStorage.getItem("categorias")) || [];
+    for (let index = 0; index < categorias.length; index++) {
+        let label = document.createElement("label");
+        label.innerHTML = categorias[index]; 
+        let input = document.createElement("input");
+        input.type = "checkbox";
+        input.id = `${categorias[index]}`
+        input.onclick = () => {
+            let inputIdCopy = input.id;
+            if(!preferencias.includes(input.id)){
+                selectPreferencia(input.id);
+            }else{
+               preferencias = preferencias.filter(preferencia => preferencia !== inputIdCopy)
+                localStorage.setItem("preferenciasMusica", JSON.stringify(preferencias));
+            }
+        } 
+        input.value = categorias[index];
+        generos.appendChild(label)
+        generos.appendChild(input)
+    }
+}
+
+
+function selectPreferencia(id){
+    preferencias.push(id);
+    localStorage.setItem("preferenciasMusica", JSON.stringify(preferencias));
+}
+
 function cleanLibrary(){
     localStorage.removeItem("biblioteca")
     biblioteca.innerHTML = "";
@@ -193,7 +225,13 @@ function loadStylesLS(){
     let style = localStorage.getItem("style");
     document.getElementById(style).checked = true
     document.body.style.background = style
+    let preferenciasLS = JSON.parse(localStorage.getItem("preferenciasMusica")) || [];
+    preferenciasLS.forEach(preferencia => {
+        let input = document.getElementById(preferencia);
+        input.checked = true;
+    });
 }
 
 document.addEventListener("DOMContentLoaded", getLocalStorage);
 document.addEventListener("DOMContentLoaded", loadStylesLS)
+crearGenerosMusica()

@@ -8,6 +8,9 @@ label {
   font-weight: bold;
 }
 
+#genres {
+}
+
 .perfil-pic img {
   width: 350px;
   border: 3px solid black;
@@ -215,13 +218,6 @@ li a:hover {
   display: none;
 }
 
-.carrousel-inner{
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-}
-
 .modal{
 display: flex;
 justify-content: center;
@@ -250,7 +246,7 @@ display: none;
   gap: 20px;
   flex-wrap: wrap;
   margin-left: 200px;
-  padding: 1px 16px;
+  padding: 16px;
 }
 
 #buscador {

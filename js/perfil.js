@@ -113,6 +113,7 @@ let categorias = JSON.parse(localStorage.getItem("categorias")) || [];
 let showcaseAndProfileInfo = document.getElementById("showcaseAndProfileInfo");
 let userProfileHTML = document.getElementById("user-profile");
 let userObjeto = JSON.parse(localStorage.getItem("user")) || null
+console.log(userObjeto);
 userProfileHTML.style.display = "none" 
 
 function cambiarInformacion(){
