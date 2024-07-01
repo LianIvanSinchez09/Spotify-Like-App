@@ -9,11 +9,15 @@ userProfileHTML.style.display = "none"
 function cambiarInformacion(){
     generosMusicaUsuario = [];
     let userObjetoConvert = JSON.parse(localStorage.getItem("user"));
+    console.log(userObjetoConvert);
     let form = document.getElementById("form-profile");
     form.style.display = "flex";
     form.innerHTML = `
             <label for="image">Foto de perfil</label>
-            <input id="fotoperfil" type="file" id="image" accept="image">
+            <select name="" id="select-foto">
+                <option value="../imgs/avatarFem.jpg">Femenino</option>
+                <option value="../imgs/avatarMas.png">Masculino</option>
+            </select>
             <label for="">Nombre(s)</label>
             <input value=${userObjetoConvert.nombre} id="nombre" type="text">
             <label for="">Apellido(s)</label>
@@ -32,7 +36,6 @@ function cambiarInformacion(){
             </div>
             <label for="">Generos musicales que me gustan</label>
             <div id="generos-musicales">
-
             </div>
             <a onclick="crearPerfil()">Realizar cambios</a>
     `
@@ -151,8 +154,7 @@ function crearPerfil(){
     let fechaInvalidaAbrilANoviembre = [4, 6, 9, 11].includes(mes) && dia > 30;
     let fechaValida = !fechaInvalidaGenerica && !fechaInvalidaFebrero && !fechaInvalidaAbrilANoviembre;
     //foto de perfil
-    let fotoPerfil = document.getElementById("fotoperfil");
-    let urlImg = null;
+    let fotoPerfil = document.getElementById("select-foto");
     //puntos
     let formPoints = 0;
     //valores
@@ -183,14 +185,9 @@ function crearPerfil(){
                     formPoints++;
                 }
             break;
-            case "fotoperfil":
-                if (fotoPerfil.files.length > 0) {
-                    urlImg = URL.createObjectURL(fotoPerfil.files[0])
-                    localStorage.setItem("urlImg", urlImg);
+            case "select-foto":
+                if(fotoPerfil.value){
                     formPoints++;
-                    formElement.style.border = "none";
-                } else {
-                    formElement.style.border = "2px solid red";
                 }
             break;
             case "input-date":
@@ -213,16 +210,6 @@ function crearPerfil(){
         }
     });
     if(formPoints == 6){
-        let userObjeto = {
-            nombre: nombre.value,
-            apellido: apellido.value,
-            dni: dni.value,
-            fechaNac: new Date(anio, mes - 1, dia),
-            imagenPerfil: urlImg,
-            email: email.value,
-            musicaLike: null
-        }
-        localStorage.setItem("user", JSON.stringify(userObjeto));
         let musicaLikeHTML = "";
         // console.log(generosMusicaUsuario.length);
         for (let index = 0; index < generosMusicaUsuario.length; index++) {
@@ -233,7 +220,16 @@ function crearPerfil(){
                 musicaLikeHTML += generosMusicaUsuario[index];
             }
         }
-        userObjeto.musicaLike = musicaLikeHTML;
+        let userObjeto = {
+            nombre: nombre.value,
+            apellido: apellido.value,
+            dni: dni.value,
+            fechaNac: new Date(anio, mes - 1, dia),
+            imagenPerfil: fotoPerfil.value,
+            email: email.value,
+            musicaLike: musicaLikeHTML
+        }
+        localStorage.setItem("user", JSON.stringify(userObjeto));
         form.style.display = "none"
         userProfileHTML.innerHTML = `
                 <div class="info-container">
@@ -253,7 +249,7 @@ function crearPerfil(){
                         <a onclick="cambiarInformacion()" class="cerrar-sesion">Cambiar Informacion</a>
                     </div>
                     <a class="perfil-pic" id="perfil-pic-manager">
-                        <img src=${urlImg} alt="fotoUsuario">
+                        <img src=${fotoPerfil.value} alt="fotoUsuario">
                     </a>  
                 </div>
         `
