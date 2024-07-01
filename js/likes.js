@@ -53,5 +53,13 @@ function detectNoLikes(){
     }
 }
 
+function loadStylesLS(){
+    let style = localStorage.getItem("style");
+    document.body.style.background = style
+}
+
+
+
+document.addEventListener("DOMContentLoaded", loadStylesLS)
 document.addEventListener("DOMContentLoaded", detectNoLikes)
 

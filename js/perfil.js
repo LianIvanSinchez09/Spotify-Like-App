@@ -289,7 +289,11 @@ function cargarPerfil(){
     }
 }
 
+function loadStylesLS(){
+    let style = localStorage.getItem("style");
+    document.body.style.background = style
+}
 
 crearCheckboxes(categorias)
-
+document.addEventListener("DOMContentLoaded", loadStylesLS)
 document.addEventListener("DOMContentLoaded", cargarPerfil)

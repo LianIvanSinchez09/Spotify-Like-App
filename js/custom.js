@@ -102,16 +102,12 @@ let albums = [
 
     new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
-
-
-            
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack")            
 ]
 
 function check() {
     let optionDarkLight = document.querySelector('input[name="theme"]:checked')
     loadStylesLS()
-    document.getElementById(localStorage.getItem("style")).checked = true;
     switch (optionDarkLight.value) {
         case 'light':
             document.getElementById("white").checked = true;
@@ -186,7 +182,6 @@ function getLocalStorage(){
         }
     }
 }
-document.addEventListener("DOMContentLoaded", getLocalStorage);
 
 function cleanLibrary(){
     localStorage.removeItem("biblioteca")
@@ -196,11 +191,9 @@ function cleanLibrary(){
 
 function loadStylesLS(){
     let style = localStorage.getItem("style");
+    document.getElementById(style).checked = true
     document.body.style.background = style
 }
 
-
-
-
-// document.addEventListener("DOMContentLoaded", loadStylesLS)
-document.addEventListener("DOMContentLoaded", check)
+document.addEventListener("DOMContentLoaded", getLocalStorage);
+document.addEventListener("DOMContentLoaded", loadStylesLS)

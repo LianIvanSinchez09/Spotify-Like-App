@@ -162,6 +162,7 @@ let counter = 0;
 albums.forEach(album => {
     album.getSongs.forEach(element => {
         let songSpace = document.createElement("li");
+        songSpace.classList.add("song-card")
         songSpace.id = `songSpace${counter}`;
         songSpace.innerHTML = `
             <img src="${album.getImg}" alt="Album Cover">
