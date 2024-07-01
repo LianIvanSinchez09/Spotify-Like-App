@@ -178,7 +178,14 @@ function createCategory(){
 
     //les creo a cada una un div con su clase propia y lo anido en mainContentContainer
     categoriaFilter.forEach(categoria => {
-        if(preferenciasUsuario.includes(categoria)){
+        if(preferenciasUsuario && preferenciasUsuario.includes(categoria)){
+            let div = document.createElement("div");
+            div.classList.add("flex-category")
+            let titleCategoria = document.createElement("h3");
+            titleCategoria.innerHTML = categoria;
+            div.appendChild(titleCategoria)
+            mainContentContainer.appendChild(div)
+        }else if(!preferenciasUsuario || preferenciasUsuario.length == 0){
             let div = document.createElement("div");
             div.classList.add("flex-category")
             let titleCategoria = document.createElement("h3");

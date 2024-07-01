@@ -114,6 +114,8 @@ let albums = [
             
 ]
 
+let preferenciasUsuario = JSON.parse(localStorage.getItem("preferenciasMusica")) || [];
+
 
 /** guarda una cancion likeada por el usuario
  * @param url
@@ -140,35 +142,69 @@ function saveLikes(url, title, author, img) {
     }
 }
 
+
+
 function showAlbum() {
     for (let index = 0; index < albums.length; index++) {
-        let albumSpace = document.createElement("div");
-        albumSpace.id = `album${index}`
-        albumSpace.innerHTML = `
-        <a id="button${index}" onclick="showModal(${index})">
-            <img src="${albums[index].getImg}" alt="Album Cover">
-            <h3>${albums[index].getTitle}</h3>
-            <p>${albums[index].getAuthor}</p>
-            <p>${albums[index].getCategoria}</p>
-        </a>
-            <button onclick="addAlbum(${index})">Añadir a biblioteca</button>
-          `;
-        lugarDeAlbumes.appendChild(albumSpace);
-        let modal = document.getElementById("myModal");
-        let span = document.getElementsByClassName("close")[0];
-        let btn = document.getElementById("button"+index);
-        btn.onclick = function() {
-            showModal(index);
-            modal.style.display = "block";
-        }
-    
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-    
-        window.onclick = function(event) {
-            if (event.target == modal) {
+        if(preferenciasUsuario && preferenciasUsuario.includes(albums[index].getCategoria)){
+            let albumSpace = document.createElement("div");
+            albumSpace.id = `album${index}`
+            albumSpace.innerHTML = `
+            <a id="button${index}" onclick="showModal(${index})">
+                <img src="${albums[index].getImg}" alt="Album Cover">
+                <h3>${albums[index].getTitle}</h3>
+                <p>${albums[index].getAuthor}</p>
+                <p>${albums[index].getCategoria}</p>
+            </a>
+                <button onclick="addAlbum(${index})">Añadir a biblioteca</button>
+              `;
+            lugarDeAlbumes.appendChild(albumSpace);
+            let modal = document.getElementById("myModal");
+            let span = document.getElementsByClassName("close")[0];
+            let btn = document.getElementById("button"+index);
+            btn.onclick = function() {
+                showModal(index);
+                modal.style.display = "block";
+            }
+        
+            span.onclick = function() {
                 modal.style.display = "none";
+            }
+        
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }else if(!preferenciasUsuario || preferenciasUsuario.length == 0){
+            let albumSpace = document.createElement("div");
+            albumSpace.id = `album${index}`
+            albumSpace.innerHTML = `
+            <a id="button${index}" onclick="showModal(${index})">
+                <img src="${albums[index].getImg}" alt="Album Cover">
+                <h3>${albums[index].getTitle}</h3>
+                <p>${albums[index].getAuthor}</p>
+                <p>${albums[index].getCategoria}</p>
+            </a>
+                <button onclick="addAlbum(${index})">Añadir a biblioteca</button>
+              `;
+            lugarDeAlbumes.appendChild(albumSpace);
+            let modal = document.getElementById("myModal");
+            let span = document.getElementsByClassName("close")[0];
+            let btn = document.getElementById("button"+index);
+            btn.onclick = function() {
+                showModal(index);
+                modal.style.display = "block";
+            }
+        
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+        
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
             }
         }
     }
