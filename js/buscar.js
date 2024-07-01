@@ -128,29 +128,36 @@ function showModal(index) {
 
 function addAlbum(index) {
     let biblioteca = document.getElementById("biblioteca");
-    let bibliotecaEspacio = document.createElement("a");
-    bibliotecaEspacio.id = `albumBiblioteca${index}`
-    bibliotecaEspacio.innerHTML = `
-        <h3>${albums[index].getTitle}</h3>
-        <p>${albums[index].getAuthor}</p>
-        <p>${albums[index].getCategoria}</p>
-    `;
-    biblioteca.appendChild(bibliotecaEspacio);
-    let modal = document.getElementById("myModal");
-    let span = document.getElementsByClassName("close")[0];
-    let btn = document.getElementById(`albumBiblioteca${index}`);
-    btn.onclick = function() {
-        showModal(index);
-        modal.style.display = "block";
-    }
-
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
+    if(!biblioteca.innerHTML.includes(albums[index].getAuthor)){
+        let bibliotecaEspacio = document.createElement("a");
+        bibliotecaEspacio.id = `albumBiblioteca${index}`
+        bibliotecaEspacio.innerHTML = `
+            <h3>${albums[index].getTitle}</h3>
+            <p>${albums[index].getAuthor}</p>
+            <p>${albums[index].getCategoria}</p>
+        `;
+        // console.log(albums[index].getTitle);
+        console.log(biblioteca);
+        // console.log();
+        biblioteca.appendChild(bibliotecaEspacio);
+        let albumsHtml = biblioteca.innerHTML;
+        localStorage.setItem('biblioteca', albumsHtml);
+        let modal = document.getElementById("myModal");
+        let span = document.getElementsByClassName("close")[0];
+        let btn = document.getElementById(`albumBiblioteca${index}`);
+        btn.onclick = function() {
+            showModal(index);
+            modal.style.display = "block";
+        }
+    
+        span.onclick = function() {
             modal.style.display = "none";
+        }
+    
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
     }
 }

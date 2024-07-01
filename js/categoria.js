@@ -94,23 +94,16 @@ let albums = [
 
     new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Soundtrack"),
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Rock"),
 
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "A lo pibe rafagazo", "C418", "../imgs/dryhands.jpg"), 
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Cumbia"),
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Progressive Rock"),
 
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "A lo pibe rafagazo", "C418", "../imgs/dryhands.jpg"), 
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "RnB"),
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Game Soundtrack"),
 
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "A lo pibe rafagazo", "C418", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "RnB"),
-
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "A lo pibe rafagazo", "C418", "../imgs/dryhands.jpg"), 
-        new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Rock")
 ]
 
 //
@@ -227,9 +220,58 @@ function saveCategorias(categoriaArray){
     localStorage.setItem("categorias", JSON.stringify(categoriaArray));
 }
 
+function getLocalStorage(){
+    let biblioteca = document.getElementById("biblioteca");
+    let savedAlbumsHtml = localStorage.getItem('biblioteca');
+    if(savedAlbumsHtml){
+        biblioteca.innerHTML = savedAlbumsHtml;
+        console.log(biblioteca.childNodes);
+        for (let index = 0; index < biblioteca.childNodes.length; index++) {
+            let btn = document.getElementById(`albumBiblioteca${index}`);
+            console.log(btn);
+            let modal = document.getElementById("myModal");
+            let span = document.getElementsByClassName("close")[0];
+            btn.onclick = function() {
+                showModal(index);
+                modal.style.display = "block";
+            }
+        
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+        
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+    }
+    console.log(savedAlbumsHtml);
+}
+
+function showModal(index) {
+    let modalContent = document.getElementById("modal-content");
+    let album = albums[index];
+    let songSection = document.createElement("div");
+    for (let i = 0; i < albums[index].getSongs.length; i++) {
+        songSection.innerHTML += `
+        <h3>${albums[index].getSongs[i].getTitle}</h3>
+        <audio controls>
+            <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
+        </audio>
+    ` 
+    }
+    modalContent.innerHTML = `
+        <h3>${album.getTitle}</h3>
+        <p>${album.getAuthor}</p>
+    `
+    modalContent.appendChild(songSection);
+}
+
+document.addEventListener("DOMContentLoaded", getLocalStorage);
+
 
 createCategory()
 loadStylesLS()
-
 let arrayChecked = eliminarRepetidos(categorias)
-

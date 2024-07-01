@@ -178,8 +178,6 @@ a{
   display: flex;
   gap: 120px;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
 }
 
 #user-likes {
