@@ -111,7 +111,15 @@ let albums = [
 
 let likes = JSON.parse(localStorage.getItem("likes")) || [];
 
-console.log(likes);
+let historial = JSON.parse(localStorage.getItem("historial")) || [];
+
+function guardarHistorial(index, i){
+    if(historial){
+        let songCopy = albums[index].getSongs[i];
+        historial.push(songCopy);
+        localStorage.setItem("historial", JSON.stringify(historial));
+    }
+}
 
 let likesSpace = document.getElementById("user-likes");
 let c = 0;
@@ -176,6 +184,7 @@ function showLikes() {
                 
                 buttonDislike.onclick = () => {
                     likes = likes.filter(item => item !== objCopia);
+                    div.classList.remove("song-card")
                     console.log(likes);
                     div.innerHTML = "";
                     localStorage.setItem("likes", JSON.stringify(likes));
@@ -265,4 +274,3 @@ document.addEventListener("DOMContentLoaded", getLocalStorage);
 document.addEventListener("DOMContentLoaded", loadStylesLS)
 document.addEventListener("DOMContentLoaded", detectNoLikes)
 document.addEventListener("DOMContentLoaded", showLikes);
-

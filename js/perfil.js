@@ -119,17 +119,17 @@ function cambiarInformacion(){
     form.style.display = "flex";
     form.innerHTML = `
             <label for="image">Foto de perfil</label>
-            <select name="" id="select-foto">
+            <select name="select" id="select-foto">
                 <option value="../imgs/avatarFem.jpg">Femenino</option>
                 <option value="../imgs/avatarMas.png">Masculino</option>
             </select>
-            <label for="">Nombre(s)</label>
+            <label for="nombre">Nombre(s)</label>
             <input value=${userObjetoConvert.nombre} id="nombre" type="text">
-            <label for="">Apellido(s)</label>
+            <label for="apellido">Apellido(s)</label>
             <input value=${userObjetoConvert.apellido} id="apellido" type="text">
-            <label for="">DNI</label>
+            <label for="dni">DNI</label>
             <input value=${userObjetoConvert.dni} id="dni" type="text" name="" id="">
-            <label for="">E-mail</label>
+            <label for="email">E-mail</label>
             <input value=${userObjetoConvert.email} id="email" type="email">
             <div id="input-date">
                 <label for="">Dia</label>
@@ -222,7 +222,8 @@ function crearCheckboxes(categorias){
     }else{
         for (let index = 0; index < categorias.length; index++) {
             let checkBoxCategoria = document.createElement("input");
-            let label = document.createElement("label");
+            checkBoxCategoria.id = `checkbox${index}`
+            let label = document.createElement("p");
             let generoCopia = categorias[index];
             label.innerHTML = categorias[index]
             checkBoxCategoria.type = "checkbox";  
@@ -333,6 +334,9 @@ function crearPerfil(){
             imagenPerfil: fotoPerfil.value,
             email: email.value,
             musicaLike: musicaLikeHTML
+        }
+        if(!musicaLikeHTML){
+            userObjeto.musicaLike = "No se eligieron preferencias"
         }
         localStorage.setItem("user", JSON.stringify(userObjeto));
         form.style.display = "none"
