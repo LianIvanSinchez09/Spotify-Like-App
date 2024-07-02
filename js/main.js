@@ -296,30 +296,34 @@ function addAlbum(index) {
 
 function getLocalStorage(){
     let biblioteca = document.getElementById("biblioteca");
-    let savedAlbumsHtml = localStorage.getItem('biblioteca');
-    if(savedAlbumsHtml){
+    let savedAlbumsHtml = localStorage.getItem('biblioteca') || [];
+    console.log(savedAlbumsHtml);
         biblioteca.innerHTML = savedAlbumsHtml;
         for (let index = 0; index < biblioteca.childNodes.length; index++) {
-            let btn = document.getElementById(`albumBiblioteca${index}`);
-            let modal = document.getElementById("myModal");
-            let span = document.getElementsByClassName("close")[0];
-            btn.onclick = function() {
-                showModal(index);
-                modal.style.display = "block";
-            }
-        
-            span.onclick = () => {
-                modal.style.display = "none";
-            }
-        
-            window.onclick = (event) => {
-                if (event.target == modal) {
-                    modal.style.display = "none";
+            if(biblioteca.childNodes[index]){
+                let btn = document.getElementById(`albumBiblioteca${index}`);
+                if(btn){
+                    let modal = document.getElementById("myModal");
+                    let span = document.getElementsByClassName("close")[0];
+                    btn.onclick = function() {
+                        showModal(index);
+                        modal.style.display = "block";
+                    }
+                
+                    span.onclick = () => {
+                        modal.style.display = "none";
+                    }
+                
+                    window.onclick = (event) => {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    }
+
                 }
             }
         }
     }
-}
 
 function cleanLibrary(){
     localStorage.removeItem("biblioteca");
