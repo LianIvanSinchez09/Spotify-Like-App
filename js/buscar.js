@@ -174,11 +174,46 @@ const btnInput = document.getElementById("data-button");
 const songContainer = document.getElementById("content");
 let counter = 0;
 
-let currentPlaying = null; // vriable para almacenar la referencia del elemento de audio actualmente en reproduccion
+let audio = null; // vriable para almacenar la referencia del elemento de audio actualmente en reproduccion
+
 
 albums.forEach((album, albumIndex) => {
+
+    let isCurrentlyPlaying = false;
+
+
     album.getSongs.forEach((cancion, songIndex) => {
         let songSpace = document.createElement("li");
+        songSpace.addEventListener("click", () => {
+            songSpace.childNodes.forEach(songSpaceElement => {
+                if(songSpaceElement.tagName === "A"){
+                    songSpaceElement.childNodes.forEach(SongSpaceElementChild => {
+                        if(SongSpaceElementChild.tagName === "IMG"){
+                            if(audio){
+                                if(!isCurrentlyPlaying){
+                                    SongSpaceElementChild.src = "../imgs/play.jpg"
+                                }else{
+                                    SongSpaceElementChild.src = "../imgs/pause.jpg"
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        })
+
+        songSpace.addEventListener("mouseleave", () => {
+            songSpace.childNodes.forEach(songSpaceElement => {
+                if(songSpaceElement.tagName === "A"){
+                    songSpaceElement.childNodes.forEach(SongSpaceElementChild => {
+                        if(SongSpaceElementChild.tagName === "IMG"){
+                            SongSpaceElementChild.src = album.img
+                        }
+                    });
+                }
+            });
+        })
+
         switch (localStorage.getItem("style")) {
             case "white":
                 songSpace.classList.add("song-card");
@@ -208,16 +243,19 @@ albums.forEach((album, albumIndex) => {
         
         let songLink = document.getElementById(`songLink${albumIndex}_${songIndex}`);
         let audioElement = document.getElementById(`audio${albumIndex}_${songIndex}`);
-        
+
         songLink.onclick = function() {
-            if (currentPlaying && currentPlaying !== audioElement) {
-                currentPlaying.pause();
-                currentPlaying.currentTime = 0;
+            if (audio && audio !== audioElement) {
+                isCurrentlyPlaying = false;
+                audio.pause();
+                audio.currentTime = 0;
             }
             if (audioElement.paused) {
+                isCurrentlyPlaying = true;
                 audioElement.play();
-                currentPlaying = audioElement;
+                audio = audioElement;
             } else {
+                isCurrentlyPlaying = false;
                 audioElement.pause();
             }
         };

@@ -109,7 +109,6 @@ let albums = [
         new Song(new Audio("../songs/wewillrockyou.mp3"), "We Will Rock You", "Queen", "../imgs/covers/queen-newsoftheworld.jpeg"),
         new Song(new Audio("../songs/wearechampions.mp3"), "We Are The Champions", "Queen", "../imgs/covers/queen-newsoftheworld.jpeg"), new Song(new Audio("../songs/sheerheartattack.mp3"), "Sheer Heart Attack", "Queen", "../imgs/covers/queen-newsoftheworld.jpeg")
     ], "News of the World", "Queen", "../imgs/covers/queen-newsoftheworld.jpeg", "Rock")
-
 ]
 
 console.log(albums);
