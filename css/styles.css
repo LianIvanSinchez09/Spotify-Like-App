@@ -64,17 +64,16 @@ label {
   padding: 20px;
   border-radius: 15px;
   margin-top: 100px;
-  width: 100%;
+  width: 80%;
   gap: 20px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  -ms-border-radius: 15px;
-  -o-border-radius: 15px;
+  background-color: #945f5f;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
 }
 
 #showcaseAndProfileInfo {
@@ -85,7 +84,7 @@ label {
 }
 
 #showcaseAndProfileInfo form {
-  background-color: lightgray;
+  background-color: white;
   width: 50%;
   padding: 50px;
 }

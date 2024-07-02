@@ -89,24 +89,23 @@ class Album {
 }
 
 let albums = [
-    new Album([
-        new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg", "Minecraft"), 
-        new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg", "Minecraft"), 
-        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg", "Minecraft")
-    ], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
+    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/covers/minecraft.jpg", "Game Soundtrack"),
+
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Luciana", "../imgs/dryhands.jpg"), 
+    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Luciana", "../imgs/haggstrom.jpg"), 
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Luciana", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/covers/minecraft.jpg", "Rock"),
+
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Lian", "../imgs/dryhands.jpg"), 
+    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Lian", "../imgs/haggstrom.jpg"), 
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Lian", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/covers/minecraft.jpg", "Progressive Rock"),
 
     new Album([
-        new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Luciana", "../imgs/dryhands.jpg", "Minecraft"), 
-        new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Luciana", "../imgs/haggstrom.jpg", "Minecraft"), 
-        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Luciana", "../imgs/wethands.jpg", "Minecraft")
-    ], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Rock"),
-
-    new Album([
-        new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Lian", "../imgs/dryhands.jpg", "Minecraft"), 
-        new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Lian", "../imgs/haggstrom.jpg", "Minecraft"), 
-        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Lian", "../imgs/wethands.jpg", "Minecraft")
-    ], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Progressive Rock")
-];
+        new Song(new Audio("../songs/wewillrockyou.mp3"), "We Will Rock You", "Queen", "../imgs/covers/queen-newsoftheworld.jpeg"),
+        new Song(new Audio("../songs/wearechampions.mp3"), "We Are The Champions", "Queen", "../imgs/covers/queen-newsoftheworld.jpeg"), new Song(new Audio("../songs/sheerheartattack.mp3"), "Sheer Heart Attack", "Queen", "../imgs/covers/queen-newsoftheworld.jpeg")
+    ], "News of the World", "Queen", "../imgs/covers/queen-newsoftheworld.jpeg", "Rock")
+]
 
 
 let likes = JSON.parse(localStorage.getItem("likes")) || [];
@@ -134,7 +133,8 @@ function cleanLibrary(){
 function showLikes() {
     if (likes.length !== 0) {
         console.log(likes);
-        for (let index = 0; index < likes.length; index++) {
+        let index = 0;
+        while (index < likes.length) {
             if (likes[index] != null) {
                 let objCopia = likes[index];
                 let div = document.createElement("div");
@@ -152,14 +152,18 @@ function showLikes() {
                 let audio = null;
 
                 // Buscar la canción en los álbumes
-                for (let albumIndex = 0; albumIndex < albums.length; albumIndex++) {
-                    for (let songIndex = 0; songIndex < albums[albumIndex].getSongs.length; songIndex++) {
+                let albumIndex = 0;
+                let found = false;
+                while (albumIndex < albums.length && !found) {
+                    let songIndex = 0;
+                    while (songIndex < albums[albumIndex].getSongs.length && !found) {
                         if (albums[albumIndex].getSongs[songIndex].title === likes[index].title) {
                             audio = albums[albumIndex].getSongs[songIndex].getSong;
-                            break;
+                            found = true;
                         }
+                        songIndex++;
                     }
-                    if (audio) break; // Salir del bucle exterior si se encuentra la canción
+                    albumIndex++;
                 }
 
                 playPauseButton.onclick = () => {
@@ -192,9 +196,11 @@ function showLikes() {
                 div.appendChild(buttonDislike);
                 likesSpace.appendChild(div);
             }
+            index++;
         }
     }
 }
+
 
 
 
