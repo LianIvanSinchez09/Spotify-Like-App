@@ -1,5 +1,6 @@
 class Song {
-    constructor(song, title, author ,img){
+    constructor(song, title, author ,img, albumName){
+        this.albumName = albumName
         this.song = song;
         this.author = author;
         this.title = title;
@@ -88,20 +89,29 @@ class Album {
 }
 
 let albums = [
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
+    new Album([
+        new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg", "Minecraft"), 
+        new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg", "Minecraft"), 
+        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg", "Minecraft")
+    ], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
 
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Luciana", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Luciana", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Luciana", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Rock"),
+    new Album([
+        new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Luciana", "../imgs/dryhands.jpg", "Minecraft"), 
+        new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Luciana", "../imgs/haggstrom.jpg", "Minecraft"), 
+        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Luciana", "../imgs/wethands.jpg", "Minecraft")
+    ], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Rock"),
 
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Lian", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Lian", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Lian", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Progressive Rock")
-]
+    new Album([
+        new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Lian", "../imgs/dryhands.jpg", "Minecraft"), 
+        new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Lian", "../imgs/haggstrom.jpg", "Minecraft"), 
+        new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Lian", "../imgs/wethands.jpg", "Minecraft")
+    ], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Progressive Rock")
+];
+
 
 let likes = JSON.parse(localStorage.getItem("likes")) || [];
+
+console.log(likes);
 
 let likesSpace = document.getElementById("user-likes");
 let c = 0;
@@ -114,43 +124,76 @@ function cleanLibrary(){
 
 function showLikes() {
     if (likes.length !== 0) {
-        likes.forEach(likedElement => { //CAMBIAR POR FOR
-            if (likedElement != null) {
-                let objCopia = likedElement;
+        for (let index = 0; index < likes.length; index++) {
+            if (likes[index] != null) {
+                let objCopia = likes[index];
                 let div = document.createElement("div");
+                div.classList.add("song-card");
+                
                 let h3 = document.createElement("h3");
+                h3.innerHTML = likes[index].title;
+                
                 let p = document.createElement("p");
+                p.innerHTML = likes[index].author;
+                
+                let img = document.createElement("img");
+                img.src = likes[index].img;
+                img.alt = "Album Cover";
+
+
+
+                let playPauseButton = document.createElement("button");
+                playPauseButton.innerHTML = "Reproducir";
+                
+                playPauseButton.onclick = () => {
+                    // let audio = new Audio(likes[index].song.src);
+                    let audio = null;
+                    let counter = 0;
+                    let counterAlbums = 0;
+                    let encontradoAlbums = false;
+                    let encontrado = false;
+                    
+                    while (counter < albums.length && !encontrado) {
+                        while (counterAlbums < albums[counter].getSongs.length && !encontradoAlbums) {
+                            if(albums[counter].getSongs[index].title == likes[index].title){
+                                audio = albums[counter].getSongs[index].getSong;
+                                encontradoAlbums = true;
+                                encontrado = true;
+                            }
+                        }
+                    }
+                    if (audio.paused) {
+                        audio.play();
+                        playPauseButton.innerHTML = "Pausar";
+                    } else {
+                        audio.pause();
+                        playPauseButton.innerHTML = "Reproducir";
+                    }
+                };
+
                 let buttonDislike = document.createElement("button");
                 buttonDislike.innerHTML = "Borrar Me Gusta";
-                let img = document.createElement("img");
-                img.src = likedElement.img;
-                h3.innerHTML = likedElement.title;
-                p.innerHTML = likedElement.author;
-                div.appendChild(buttonDislike);
-                div.appendChild(h3);
-                div.appendChild(p);
-                div.appendChild(img);
-                likesSpace.appendChild(div);
-
+                
                 buttonDislike.onclick = () => {
                     likes = likes.filter(item => item !== objCopia);
                     console.log(likes);
                     div.innerHTML = "";
                     localStorage.setItem("likes", JSON.stringify(likes));
-                    detectNoLikes()
+                    detectNoLikes();
                 };
+
+                div.appendChild(img);
+                div.appendChild(h3);
+                div.appendChild(p);
+                div.appendChild(playPauseButton);
+                div.appendChild(buttonDislike);
+                likesSpace.appendChild(div);
             }
-            c++;
-        });
+        }
     }
 }
 
-document.addEventListener("DOMContentLoaded", showLikes);
 
-
-function elementosSimilares(elemento){
-    return elemento != likes[i];
-}
 
 function detectNoLikes(){
     if(likes.length != 0){
@@ -221,4 +264,5 @@ document.addEventListener("DOMContentLoaded", getLocalStorage);
 
 document.addEventListener("DOMContentLoaded", loadStylesLS)
 document.addEventListener("DOMContentLoaded", detectNoLikes)
+document.addEventListener("DOMContentLoaded", showLikes);
 
