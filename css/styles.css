@@ -243,9 +243,7 @@ label {
 }
 
 .song-Space img:hover {
-  filter: blur(2px);
   cursor: pointer;
-  -webkit-filter: blur(2px);
 }
 
 .song-card{
@@ -355,10 +353,7 @@ a{
 
 }
 
-#albumes img{
-  width: 200px;
-  height: 200px;
-}
+
 
 #albumes button {
   border-radius: 15px;
