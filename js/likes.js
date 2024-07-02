@@ -133,6 +133,7 @@ function cleanLibrary(){
 
 function showLikes() {
     if (likes.length !== 0) {
+        console.log(likes);
         for (let index = 0; index < likes.length; index++) {
             if (likes[index] != null) {
                 let objCopia = likes[index];
@@ -147,28 +148,21 @@ function showLikes() {
                 img.alt = "Album Cover";
                 let playPauseButton = document.createElement("button");
                 playPauseButton.innerHTML = "Reproducir";
+
                 let audio = null;
-                
-                playPauseButton.onclick = () => {
-                    // let audio = new Audio(likes[index].song.src);
-                    let counter = 0;
-                    let counterAlbums = 0;
-                    let encontradoAlbums = false;
-                    let encontrado = false;
-                    
 
-
-
-                    while (counter < albums.length && !encontrado) {
-                        while (counterAlbums < albums[counter].getSongs.length && !encontradoAlbums) {
-                            if(albums[counter].getSongs[index].title == likes[index].title){
-                                audio = albums[counter].getSongs[index].getSong;
-                                encontradoAlbums = true;
-                                encontrado = true;
-                            }
+                // Buscar la canción en los álbumes
+                for (let albumIndex = 0; albumIndex < albums.length; albumIndex++) {
+                    for (let songIndex = 0; songIndex < albums[albumIndex].getSongs.length; songIndex++) {
+                        if (albums[albumIndex].getSongs[songIndex].title === likes[index].title) {
+                            audio = albums[albumIndex].getSongs[songIndex].getSong;
+                            break;
                         }
                     }
+                    if (audio) break; // Salir del bucle exterior si se encuentra la canción
+                }
 
+                playPauseButton.onclick = () => {
                     if (audio.paused) {
                         audio.play();
                         playPauseButton.innerHTML = "Pausar";
@@ -184,7 +178,7 @@ function showLikes() {
                 buttonDislike.onclick = () => {
                     audio.pause();
                     likes = likes.filter(item => item !== objCopia);
-                    div.classList.remove("song-card")
+                    div.classList.remove("song-card");
                     console.log(likes);
                     div.innerHTML = "";
                     localStorage.setItem("likes", JSON.stringify(likes));
@@ -194,13 +188,14 @@ function showLikes() {
                 div.appendChild(img);
                 div.appendChild(h3);
                 div.appendChild(p);
-                div.appendChild(buttonDislike);
                 div.appendChild(playPauseButton);
+                div.appendChild(buttonDislike);
                 likesSpace.appendChild(div);
             }
         }
     }
 }
+
 
 
 

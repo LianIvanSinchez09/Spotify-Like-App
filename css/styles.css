@@ -250,6 +250,10 @@ label {
 }
 
 .song-card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border: 3px solid rgb(0, 0, 0);
   border-radius: 10px;
   padding: 25px;
@@ -259,7 +263,20 @@ label {
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
+}
 
+.button-group-likes {
+  display: flex;
+  gap: 10px;
+}
+
+.button-group-likes button{
+  background-color: white;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
 .song-card-alt{
