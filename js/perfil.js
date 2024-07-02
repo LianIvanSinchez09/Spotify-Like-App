@@ -337,26 +337,23 @@ function crearPerfil(){
         localStorage.setItem("user", JSON.stringify(userObjeto));
         form.style.display = "none"
         userProfileHTML.innerHTML = `
-                <div class="info-container">
-                    <div class="essential-info">
-                        <h3>Nombre</h3>
-                        <p id="nombreUser">${userObjeto.nombre}</p>
-                        <h3>Apellido</h3>
-                        <p id="apellidoUser">${userObjeto.apellido}</p>
-                        <h3>DNI</h3>
-                        <p id="dniUser">${userObjeto.dni}</p>
-                        <h3>E-mail</h3>
-                        <p id="emailUser">${userObjeto.email}l</p>
-                        <h3>Generos Musicales que me gustan</h3>
-                        <p id="generosMusicaleslUser">
-                            ${musicaLikeHTML}
-                        </p>
-                        <a onclick="cambiarInformacion()" class="cerrar-sesion">Cambiar Informacion</a>
-                    </div>
-                    <a class="perfil-pic" id="perfil-pic-manager">
-                        <img src=${fotoPerfil.value} alt="fotoUsuario">
-                    </a>  
-                </div>
+            <img src=${userObjeto.imagenPerfil} alt="fotoUsuario">
+            <div class="info-container">
+                <a class="perfil-pic" id="perfil-pic-manager"></a>
+                <h3>Nombre</h3>
+                <p id="nombreUser">${userObjeto.nombre}</p>
+                <h3>Apellido</h3>
+                <p id="apellidoUser">${userObjeto.apellido}</p>
+                <h3>DNI</h3>
+                <p id="dniUser">${userObjeto.dni}</p>
+                <h3>E-mail</h3>
+                <p id="emailUser">${userObjeto.email}l</p>
+                <h3>Generos Musicales que me gustan</h3>
+                <p id="generosMusicaleslUser">
+                    ${userObjeto.musicaLike}
+                </p>
+                <a onclick="cambiarInformacion()" class="cerrar-sesion">Cambiar Informacion</a>
+
         `
         userProfileHTML.style.display = "flex"
     }
@@ -369,26 +366,24 @@ function cargarPerfil(){
         form.style.display = "none"
         userProfileHTML.innerHTML = 
         `
+            <img src=${userObjeto.imagenPerfil} alt="fotoUsuario">
             <div class="info-container">
-                <div class="essential-info">
-                    <h3>Nombre</h3>
-                    <p id="nombreUser">${userObjeto.nombre}</p>
-                    <h3>Apellido</h3>
-                    <p id="apellidoUser">${userObjeto.apellido}</p>
-                    <h3>DNI</h3>
-                    <p id="dniUser">${userObjeto.dni}</p>
-                    <h3>E-mail</h3>
-                    <p id="emailUser">${userObjeto.email}l</p>
-                    <h3>Generos Musicales que me gustan</h3>
-                    <p id="generosMusicaleslUser">
-                        ${userObjeto.musicaLike}
-                    </p>
-                    <a onclick="cambiarInformacion()" class="cerrar-sesion">Cambiar Informacion</a>            
+                <a class="perfil-pic" id="perfil-pic-manager"></a>
+                <h3>Nombre</h3>
+                <p id="nombreUser">${userObjeto.nombre}</p>
+                <h3>Apellido</h3>
+                <p id="apellidoUser">${userObjeto.apellido}</p>
+                <h3>DNI</h3>
+                <p id="dniUser">${userObjeto.dni}</p>
+                <h3>E-mail</h3>
+                <p id="emailUser">${userObjeto.email}l</p>
+                <h3>Generos Musicales que me gustan</h3>
+                <p id="generosMusicaleslUser">
+                    ${userObjeto.musicaLike}
+                </p>
+                <a onclick="cambiarInformacion()" class="cerrar-sesion">Cambiar Informacion</a>            
+                        </a>  
                 </div>
-                <a class="perfil-pic" id="perfil-pic-manager">
-                    <img src=${userObjeto.imagenPerfil} alt="fotoUsuario">
-                </a>  
-            </div>
         `
         userProfileHTML.style.display = "flex"
     }

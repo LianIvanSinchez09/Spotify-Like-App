@@ -175,14 +175,33 @@ function createCategory(){
     categoriaFilter.forEach(categoria => {
         if(preferenciasUsuario && preferenciasUsuario.includes(categoria)){
             let div = document.createElement("div");
-            div.classList.add("flex-category")
+            switch (localStorage.getItem("style")) {
+                case "white":
+                    div.classList.add("flex-category");
+                break;
+                case "gray":
+                    div.classList.add("flex-category-alt");
+                break;
+                default:
+                    div.classList.add("flex-category");
+                break;
+            }
             let titleCategoria = document.createElement("h3");
             titleCategoria.innerHTML = categoria;
             div.appendChild(titleCategoria)
             mainContentContainer.appendChild(div)
         }else if(!preferenciasUsuario || preferenciasUsuario.length == 0){
             let div = document.createElement("div");
-            div.classList.add("flex-category")
+            switch (localStorage.getItem("style")) {
+                case "white":
+                    div.classList.add("flex-category");
+                break;
+                case "gray":
+                    div.classList.add("flex-category-alt");
+                break;
+                default:
+                break;
+            }
             let titleCategoria = document.createElement("h3");
             titleCategoria.innerHTML = categoria;
             div.appendChild(titleCategoria)
@@ -209,10 +228,13 @@ function createCategory(){
                                 card.innerHTML += `
                                 <h4>${song.getTitle}</h4>
                                 <p>${album.author}</p>
+                                <div class="audio-category">
+                                <img class="img-categoria" src=${album.getImg}>
                                 <audio controls onplay="reproducirEvent()">
-                                <source src="${song.getSong.src}">
-                                </audio>
-                                <button onclick="saveLikes('${song.src}', '${song.getTitle}', '${album.getAuthor}', '${album.getImg}')">Añadir a tus me gusta</button>
+                                        <source src="${song.getSong.src}">
+                                    </audio>
+                                    <button onclick="saveLikes('${song.src}', '${song.getTitle}', '${album.getAuthor}', '${album.getImg}')">Añadir a tus me gusta</button>
+                                </div>
                                 `
                                 counter++
                                 categoryMainChild[index].appendChild(card)

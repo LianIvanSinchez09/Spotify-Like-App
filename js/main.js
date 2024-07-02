@@ -1,7 +1,6 @@
-
 //clase de canciones
 class Song {
-    constructor(song, title, author ,img){
+    constructor(song, title, author, img){
         this.song = song;
         this.author = author;
         this.title = title;
@@ -17,7 +16,7 @@ class Song {
     }
 
     set setAuthor(author){
-        this.author = author
+        this.author = author;
     }
 
     get getTitle() {
@@ -43,7 +42,7 @@ class Song {
 
 //clase de albums
 class Album {
-    constructor(songs, title, author ,img, categoria){
+    constructor(songs, title, author, img, categoria){
         this.categoria = categoria;
         this.songs = songs;
         this.author = author;
@@ -71,7 +70,7 @@ class Album {
     }
 
     set setAuthor(author){
-        this.author = author
+        this.author = author;
     }
 
     get getTitle() {
@@ -91,9 +90,7 @@ class Album {
 }
 
 
-let lugarDeAlbumes = document.getElementById("albumes-populares");
-
-
+let lugarDeAlbumes = document.getElementById("albumes");
 
 let albums = [
     new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
@@ -111,14 +108,6 @@ let albums = [
 
 let preferenciasUsuario = JSON.parse(localStorage.getItem("preferenciasMusica")) || [];
 
-
-/** guarda una cancion likeada por el usuario
- * @param url
- * @param title
- * @param author
- * @param img
- * @returns void
-*/
 function saveLikes(url, title, author, img) {
     let arrayLikes = JSON.parse(localStorage.getItem("likes")) || [];
     let likedObjSong = { url, title, author, img };
@@ -127,7 +116,6 @@ function saveLikes(url, title, author, img) {
     while(c < arrayLikes.length && !encontrado){
         if(arrayLikes[c].title == likedObjSong.title){
             encontrado = true;
-            console.log("true");
         }
         c++;
     }
@@ -137,21 +125,31 @@ function saveLikes(url, title, author, img) {
     }
 }
 
-
-
 function showAlbum() {
     for (let index = 0; index < albums.length; index++) {
         if(preferenciasUsuario && preferenciasUsuario.includes(albums[index].getCategoria)){
+
             let albumSpace = document.createElement("div");
             albumSpace.id = `album${index}`
-            albumSpace.innerHTML = `
+            switch (localStorage.getItem("style")) {
+                case "white":
+                    albumSpace.classList.add("song-card");
+                break;
+                case "gray":
+                    albumSpace.classList.add("song-card-alt");
+                break;
+                default:
+                    albumSpace.classList.add("song-card");                    
+                break;
+            }
+            albumSpace.innerHTML = `          
             <a id="button${index}" onclick="showModal(${index})">
-                <img src="${albums[index].getImg}" alt="Album Cover">
+            <img src="${albums[index].getImg}" alt="Album Cover">
                 <h3>${albums[index].getTitle}</h3>
                 <p>${albums[index].getAuthor}</p>
                 <p>${albums[index].getCategoria}</p>
             </a>
-                <button onclick="addAlbum(${index})">Añadir a biblioteca</button>
+            <button onclick="addAlbum(${index})">Añadir a biblioteca</button>
               `;
             lugarDeAlbumes.appendChild(albumSpace);
             let modal = document.getElementById("myModal");
@@ -159,7 +157,6 @@ function showAlbum() {
             let btn = document.getElementById("button"+index);
             btn.onclick = function() {
                 showModal(index);
-                modal.style.display = "block";
             }
         
             span.onclick = function() {
@@ -171,9 +168,21 @@ function showAlbum() {
                     modal.style.display = "none";
                 }
             }
-        }else if(!preferenciasUsuario || preferenciasUsuario.length == 0){
+        } else if(!preferenciasUsuario || preferenciasUsuario.length == 0){
             let albumSpace = document.createElement("div");
             albumSpace.id = `album${index}`
+            switch (localStorage.getItem("style")) {
+                case "white":
+                    albumSpace.classList.add("song-card");
+                break;
+                case "gray":
+                    albumSpace.classList.add("song-card-alt");
+                break;
+                default:
+                    albumSpace.classList.add("song-card");                    
+                break;
+            }
+
             albumSpace.innerHTML = `
             <a id="button${index}" onclick="showModal(${index})">
                 <img src="${albums[index].getImg}" alt="Album Cover">
@@ -187,16 +196,16 @@ function showAlbum() {
             let modal = document.getElementById("myModal");
             let span = document.getElementsByClassName("close")[0];
             let btn = document.getElementById("button"+index);
-            btn.onclick = function() {
+            btn.onclick = () => {
                 showModal(index);
                 modal.style.display = "block";
             }
         
-            span.onclick = function() {
+            span.onclick = () => {
                 modal.style.display = "none";
             }
         
-            window.onclick = function(event) {
+            window.onclick = (event) => {
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
@@ -208,9 +217,11 @@ function showAlbum() {
 let historial = JSON.parse(localStorage.getItem("historial")) || [];
 
 function guardarHistorial(index, i){
-    // console.log(albums[index].getSongs[i]);
-    historial.push(albums[index].getSongs[i]);
-    localStorage.setItem("historial", JSON.stringify(historial));
+    if(historial){
+        let songCopy = albums[index].getSongs[i];
+        historial.push(songCopy);
+        localStorage.setItem("historial", JSON.stringify(historial));
+    }
 }
 
 function showModal(index) {
@@ -222,10 +233,12 @@ function showModal(index) {
         let songTitle = albums[index].getSongs[i].getTitle;
         songSection.innerHTML += `
             <h3>${songTitle}</h3>
-            <audio onplay="guardarHistorial(${index}, ${i})" controls>
-                <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
-            </audio>
-            <button onclick="saveLikes('${albums[index].getSongs[i].getSong.src}', '${songTitle}', '${album.getAuthor}', '${albums[index].getImg}', '${objID}')">Añadir a tus me gusta</button>
+            <div class="audio-category">
+                <audio onplay="guardarHistorial(${index}, ${i})" controls>
+                    <source src="${albums[index].getSongs[i].getSong.src}" type="audio/mpeg">
+                </audio>
+                <button onclick="saveLikes('${albums[index].getSongs[i].getSong.src}', '${songTitle}', '${album.getAuthor}', '${albums[index].getImg}', '${objID}')">Añadir a tus me gusta</button>
+            </div>
         `; 
     }
     
@@ -234,36 +247,35 @@ function showModal(index) {
         <p>${album.getAuthor}</p>
     `;
     modalContent.appendChild(songSection);
+    document.getElementById("myModal").style.display = "block";
 }
 
 function addAlbum(index) {
     let biblioteca = document.getElementById("biblioteca");
     if(!biblioteca.innerHTML.includes(albums[index].getAuthor)){
         let bibliotecaEspacio = document.createElement("a");
-        bibliotecaEspacio.id = `albumBiblioteca${index}`
+        bibliotecaEspacio.id = `albumBiblioteca${index}`;
         bibliotecaEspacio.innerHTML = `
             <h3>${albums[index].getTitle}</h3>
             <p>${albums[index].getAuthor}</p>
             <p>${albums[index].getCategoria}</p>
         `;
-        // console.log(albums[index].getTitle);
-        // console.log();
         biblioteca.appendChild(bibliotecaEspacio);
         let albumsHtml = biblioteca.innerHTML;
         localStorage.setItem('biblioteca', albumsHtml);
         let modal = document.getElementById("myModal");
         let span = document.getElementsByClassName("close")[0];
         let btn = document.getElementById(`albumBiblioteca${index}`);
-        btn.onclick = function() {
+        btn.onclick = () => {
             showModal(index);
             modal.style.display = "block";
         }
     
-        span.onclick = function() {
+        span.onclick = () => {
             modal.style.display = "none";
         }
     
-        window.onclick = function(event) {
+        window.onclick = (event) => {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
@@ -276,10 +288,8 @@ function getLocalStorage(){
     let savedAlbumsHtml = localStorage.getItem('biblioteca');
     if(savedAlbumsHtml){
         biblioteca.innerHTML = savedAlbumsHtml;
-        console.log(biblioteca.childNodes);
         for (let index = 0; index < biblioteca.childNodes.length; index++) {
             let btn = document.getElementById(`albumBiblioteca${index}`);
-            console.log(btn);
             let modal = document.getElementById("myModal");
             let span = document.getElementsByClassName("close")[0];
             btn.onclick = function() {
@@ -287,31 +297,33 @@ function getLocalStorage(){
                 modal.style.display = "block";
             }
         
-            span.onclick = function() {
+            span.onclick = () => {
                 modal.style.display = "none";
             }
         
-            window.onclick = function(event) {
+            window.onclick = (event) => {
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
             }
         }
     }
-    console.log(savedAlbumsHtml);
 }
 
 function cleanLibrary(){
-    localStorage.removeItem("biblioteca")
-    biblioteca.innerHTML = "";
+    localStorage.removeItem("biblioteca");
+    document.getElementById("biblioteca").innerHTML = "";
 }
 
 function loadStylesLS(){
     let style = localStorage.getItem("style");
-    document.body.style.background = style
+    if(style){
+        document.body.style.background = style;
+    } else {
+        document.body.style.background = "white";
+    }
 }
+document.addEventListener("DOMContentLoaded", loadStylesLS);
 
-loadStylesLS()
 showAlbum();
 document.addEventListener("DOMContentLoaded", getLocalStorage);
-

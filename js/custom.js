@@ -112,7 +112,6 @@ function guardarHistorial(index, i){
 
 function check() {
     let optionDarkLight = document.querySelector('input[name="theme"]:checked')
-    loadStylesLS()
     switch (optionDarkLight.value) {
         case 'light':
             document.getElementById("white").checked = true;
@@ -125,20 +124,25 @@ function check() {
             loadStylesLS()
             break;
         default:
+            document.getElementById("white").checked = true;
+            localStorage.setItem("style", "white");
+            loadStylesLS()
             break;
     }
 }
 
 function mostrarHistorial(){
     let seccionHistorial = document.getElementById("historial");
-    historial.forEach(song => {
-        let title = document.createElement("h4");
-        let author = document.createElement("p");
-        title.innerHTML = song.title
-        author.innerHTML = song.author
-        seccionHistorial.appendChild(title)
-        seccionHistorial.appendChild(author)
-    });
+    if(historial){
+        historial.forEach(song => {
+            let title = document.createElement("h4");
+            let author = document.createElement("p");
+            title.innerHTML = song.title
+            author.innerHTML = song.author
+            seccionHistorial.appendChild(title)
+            seccionHistorial.appendChild(author)
+        });
+    }
 }
 
 mostrarHistorial()
@@ -242,15 +246,27 @@ function cleanLibrary(){
 
 function loadStylesLS(){
     let style = localStorage.getItem("style");
-    document.getElementById(style).checked = true
-    document.body.style.background = style
-    let preferenciasLS = JSON.parse(localStorage.getItem("preferenciasMusica")) || [];
-    preferenciasLS.forEach(preferencia => {
-        let input = document.getElementById(preferencia);
-        input.checked = true;
-    });
+    console.log(style);
+    if(style){
+        document.getElementById(style).checked = true
+        document.body.style.background = style
+        let preferenciasLS = JSON.parse(localStorage.getItem("preferenciasMusica")) || [];
+        preferenciasLS.forEach(preferencia => {
+            let input = document.getElementById(preferencia);
+            input.checked = true;
+        });
+    }else{
+        document.getElementById("white").checked = true
+        document.body.style.background = style
+        let preferenciasLS = JSON.parse(localStorage.getItem("preferenciasMusica")) || [];
+        preferenciasLS.forEach(preferencia => {
+            let input = document.getElementById(preferencia);
+            input.checked = true;
+        });
+    }
 }
 
 document.addEventListener("DOMContentLoaded", getLocalStorage);
+document.addEventListener("DOMContentLoaded", check);
 document.addEventListener("DOMContentLoaded", loadStylesLS)
 crearGenerosMusica()

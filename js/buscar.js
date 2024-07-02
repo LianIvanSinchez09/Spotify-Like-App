@@ -93,17 +93,13 @@ let albums = [
     new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
     new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "C418", "../imgs/minecraft.jpg", "Game Soundtrack"),
 
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Rock"),
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Luciana", "../imgs/dryhands.jpg"), 
+    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Luciana", "../imgs/haggstrom.jpg"), 
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Luciana", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Rock"),
 
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Progressive Rock"),
-
-    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "C418", "../imgs/dryhands.jpg"), 
-    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "C418", "../imgs/haggstrom.jpg"), 
-    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "C418", "../imgs/wethands.jpg")], "Minecraft", "Luciana", "../imgs/minecraft.jpg", "Game Soundtrack"),
+    new Album([new Song(new Audio("../songs/dryhands.mp3"), "Dry Hands", "Lian", "../imgs/dryhands.jpg"), 
+    new Song(new Audio("../songs/haggstrom.mp3"), "Haggstrom", "Lian", "../imgs/haggstrom.jpg"), 
+    new Song(new Audio("../songs/wethands.mp3"), "Wet Hands", "Lian", "../imgs/wethands.jpg")], "Minecraft", "Lian", "../imgs/minecraft.jpg", "Progressive Rock")
 ]
 
 function addAlbum(index) {
@@ -173,23 +169,59 @@ const btnInput = document.getElementById("data-button");
 const songContainer = document.getElementById("content");
 let counter = 0;
 
-albums.forEach(album => {
-    album.getSongs.forEach(cancion => {
+let currentPlaying = null; // vriable para almacenar la referencia del elemento de audio actualmente en reproduccion
+
+albums.forEach((album, albumIndex) => {
+    album.getSongs.forEach((cancion, songIndex) => {
         let songSpace = document.createElement("li");
-        songSpace.classList.add("song-card")
+        switch (localStorage.getItem("style")) {
+            case "white":
+                songSpace.classList.add("song-card");
+                break;
+            case "gray":
+                songSpace.classList.add("song-card-alt");
+                break;
+            default:
+                songSpace.classList.add("song-card");
+                break;
+        }
         songSpace.id = `songSpace${counter}`;
+        songSpace.classList.add("song-Space");
         songSpace.innerHTML = `
-            <img src="${album.getImg}" alt="Album Cover">
-            <h3>${cancion.getTitle}</h3>
-            <div class="searched-element-button">
-                <button onclick="saveLikes('${cancion.getSong.src}', '${cancion.getTitle}', '${cancion.getAuthor}', '${album.getImg}')">Añadir a tus me gusta</button>
-                <button onclick="addAlbum(${counter})">Añadir a tu biblioteca</button>
-            </div>
-          `;;
+            <a id="songLink${albumIndex}_${songIndex}">
+                <img src="${album.getImg}" alt="Album Cover">
+                <h3>${cancion.getTitle}</h3>
+                <h3>${cancion.getAuthor}</h3>
+                <div class="searched-element-button">
+                    <button onclick="saveLikes('${cancion.getSong.src}', '${cancion.getTitle}', '${cancion.getAuthor}', '${album.getImg}')">Añadir a tus me gusta</button>
+                    <button onclick="addAlbum(${albumIndex})">Añadir a tu biblioteca</button>
+                </div>
+            </a>
+            <audio id="audio${albumIndex}_${songIndex}" src="${cancion.getSong.src}"></audio>
+        `;
         songContainer.appendChild(songSpace);
+        
+        let songLink = document.getElementById(`songLink${albumIndex}_${songIndex}`);
+        let audioElement = document.getElementById(`audio${albumIndex}_${songIndex}`);
+        
+        songLink.onclick = function() {
+            if (currentPlaying && currentPlaying !== audioElement) {
+                currentPlaying.pause();
+                currentPlaying.currentTime = 0;
+            }
+            if (audioElement.paused) {
+                audioElement.play();
+                currentPlaying = audioElement;
+            } else {
+                audioElement.pause();
+            }
+        };
+        
         counter++;
     });
 });
+
+
 
 btnInput.addEventListener("click", () => {
     const inputData = document.getElementById("buscador").value.toLowerCase();
@@ -272,9 +304,12 @@ function cleanLibrary(){
 
 function loadStylesLS(){
     let style = localStorage.getItem("style");
-    document.body.style.background = style
+    if(style){
+        document.body.style.background = style
+    }else{
+        document.body.style.background = "white"
+    }
 }
-
-loadStylesLS()
+document.addEventListener("DOMContentLoaded", loadStylesLS);
 
 document.addEventListener("DOMContentLoaded", getLocalStorage);
