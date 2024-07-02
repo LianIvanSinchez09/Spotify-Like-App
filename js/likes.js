@@ -130,6 +130,7 @@ function cleanLibrary(){
 }
 
 
+
 function showLikes() {
     if (likes.length !== 0) {
         for (let index = 0; index < likes.length; index++) {
@@ -137,30 +138,27 @@ function showLikes() {
                 let objCopia = likes[index];
                 let div = document.createElement("div");
                 div.classList.add("song-card");
-                
                 let h3 = document.createElement("h3");
                 h3.innerHTML = likes[index].title;
-                
                 let p = document.createElement("p");
                 p.innerHTML = likes[index].author;
-                
                 let img = document.createElement("img");
                 img.src = likes[index].img;
                 img.alt = "Album Cover";
-
-
-
                 let playPauseButton = document.createElement("button");
                 playPauseButton.innerHTML = "Reproducir";
+                let audio = null;
                 
                 playPauseButton.onclick = () => {
                     // let audio = new Audio(likes[index].song.src);
-                    let audio = null;
                     let counter = 0;
                     let counterAlbums = 0;
                     let encontradoAlbums = false;
                     let encontrado = false;
                     
+
+
+
                     while (counter < albums.length && !encontrado) {
                         while (counterAlbums < albums[counter].getSongs.length && !encontradoAlbums) {
                             if(albums[counter].getSongs[index].title == likes[index].title){
@@ -170,6 +168,7 @@ function showLikes() {
                             }
                         }
                     }
+
                     if (audio.paused) {
                         audio.play();
                         playPauseButton.innerHTML = "Pausar";
@@ -183,6 +182,7 @@ function showLikes() {
                 buttonDislike.innerHTML = "Borrar Me Gusta";
                 
                 buttonDislike.onclick = () => {
+                    audio.pause();
                     likes = likes.filter(item => item !== objCopia);
                     div.classList.remove("song-card")
                     console.log(likes);
@@ -190,12 +190,12 @@ function showLikes() {
                     localStorage.setItem("likes", JSON.stringify(likes));
                     detectNoLikes();
                 };
-
+                                
                 div.appendChild(img);
                 div.appendChild(h3);
                 div.appendChild(p);
-                div.appendChild(playPauseButton);
                 div.appendChild(buttonDislike);
+                div.appendChild(playPauseButton);
                 likesSpace.appendChild(div);
             }
         }

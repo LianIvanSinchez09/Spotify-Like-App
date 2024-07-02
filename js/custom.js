@@ -267,6 +267,6 @@ function loadStylesLS(){
 }
 
 document.addEventListener("DOMContentLoaded", getLocalStorage);
-document.addEventListener("DOMContentLoaded", check);
 document.addEventListener("DOMContentLoaded", loadStylesLS)
+document.addEventListener("DOMContentLoaded", check);
 crearGenerosMusica()

@@ -341,8 +341,11 @@ function crearPerfil(){
         localStorage.setItem("user", JSON.stringify(userObjeto));
         form.style.display = "none"
         userProfileHTML.innerHTML = `
+        <div class="img-perfil-seccion">
             <img src=${userObjeto.imagenPerfil} alt="fotoUsuario">
-            <div class="info-container">
+            <a class="button-perfil" onclick="cambiarInformacion()" class="cerrar-sesion">Cambiar Informacion</a>
+        </div>
+        <div class="info-container">
                 <a class="perfil-pic" id="perfil-pic-manager"></a>
                 <h3>Nombre</h3>
                 <p id="nombreUser">${userObjeto.nombre}</p>
@@ -356,7 +359,6 @@ function crearPerfil(){
                 <p id="generosMusicaleslUser">
                     ${userObjeto.musicaLike}
                 </p>
-                <a onclick="cambiarInformacion()" class="cerrar-sesion">Cambiar Informacion</a>
 
         `
         userProfileHTML.style.display = "flex"
@@ -370,7 +372,10 @@ function cargarPerfil(){
         form.style.display = "none"
         userProfileHTML.innerHTML = 
         `
-            <img src=${userObjeto.imagenPerfil} alt="fotoUsuario">
+            <div class="img-perfil-seccion">
+                <img src=${userObjeto.imagenPerfil} alt="fotoUsuario">
+                <a class="button-perfil" onclick="cambiarInformacion()" class="cerrar-sesion">Cambiar Informacion</a>
+            </div>
             <div class="info-container">
                 <a class="perfil-pic" id="perfil-pic-manager"></a>
                 <h3>Nombre</h3>
@@ -385,8 +390,6 @@ function cargarPerfil(){
                 <p id="generosMusicaleslUser">
                     ${userObjeto.musicaLike}
                 </p>
-                <a onclick="cambiarInformacion()" class="cerrar-sesion">Cambiar Informacion</a>            
-                        </a>  
                 </div>
         `
         userProfileHTML.style.display = "flex"
